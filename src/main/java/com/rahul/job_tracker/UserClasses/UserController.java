@@ -1,7 +1,5 @@
-package com.rahul.job_tracker.RestControllers;
+package com.rahul.job_tracker.UserClasses;
 
-import com.rahul.job_tracker.Entities.User;
-import com.rahul.job_tracker.Services.UserServices;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

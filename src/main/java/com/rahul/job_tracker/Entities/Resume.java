@@ -2,6 +2,8 @@ package com.rahul.job_tracker.Entities;
 
 import java.util.Optional;
 
+import com.rahul.job_tracker.UserClasses.User;
+
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

@@ -1,11 +1,11 @@
-package com.rahul.job_tracker.Repositories;
+package com.rahul.job_tracker.UserClasses;
+
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.rahul.job_tracker.Entities.User;
-
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>{
-    
+    Optional<User> findByEmail(String email);
 }
