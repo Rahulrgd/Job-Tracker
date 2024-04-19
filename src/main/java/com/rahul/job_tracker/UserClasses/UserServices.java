@@ -1,6 +1,5 @@
 package com.rahul.job_tracker.UserClasses;
 
-import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserServices implements UserDetailsService {
+public class UserServices{
 
   @Autowired
   private UserRepository userRepository;
@@ -22,27 +21,16 @@ public class UserServices implements UserDetailsService {
   private PasswordEncoder passwordEncoder;
 
   public ResponseEntity<User> createUser(User user) {
-    userRepository.save(user);
-    return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    User newUser = new User();
+    newUser.setFullName(user.getFullName());
+    newUser.setEmail(user.getEmail());
+    newUser.setPassword(passwordEncoder.encode(user.getPassword()));
+    newUser.setRole("user");
+    userRepository.save(newUser);
+    return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
   }
 
   public List<User> getAllUsers() {
     return userRepository.findAll();
-  }
-
-  @Override
-  public UserDetails loadUserByUsername(String email)
-    throws UsernameNotFoundException {
-      User user = userRepository.findByEmail(email).orElseThrow(()-> new UsernameNotFoundException("User not found"));
-      return new org.springframework.security.core.userdetails.User(
-        user.getEmail(),
-        user.getPassword(),
-        Collections.singletonList(new SimpleGrantedAuthority(user.getRole()))
-      );
-  }
-
-  public User saveUser(User user){
-    user.setPassword(passwordEncoder.encode(user.getPassword()));
-    return userRepository.save(user);
   }
 }

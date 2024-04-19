@@ -33,7 +33,7 @@ public class SecurityFilterConfig {
       )
       .authorizeHttpRequests(auth ->
         auth
-          .requestMatchers("/authenticate","/h2-console/**")
+          .requestMatchers("/sign-up/", "/authenticate","/h2-console/**")
           .permitAll()
           .anyRequest()
           .authenticated()

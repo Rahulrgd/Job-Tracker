@@ -13,7 +13,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Component
 public class JwtRequest {
     private String username;
     private String password;

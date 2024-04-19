@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class UserController {
+public class UserRestController {
 
   @Autowired
   private UserServices userServices;
@@ -19,7 +19,7 @@ public class UserController {
     return userServices.getAllUsers();
   }
 
-  @PostMapping("/create-user")
+  @PostMapping("/sign-up/")
   public ResponseEntity<User> createUser(@RequestBody User user){
     return userServices.createUser(user);
   }
