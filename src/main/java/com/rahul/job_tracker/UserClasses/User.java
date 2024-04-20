@@ -1,5 +1,6 @@
 package com.rahul.job_tracker.UserClasses;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rahul.job_tracker.Entities.JobPost;
 import com.rahul.job_tracker.Entities.Resume;
 import jakarta.annotation.Nullable;
@@ -15,6 +16,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,8 +36,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class User implements UserDetails {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private UUID id;
 
   private String fullName;
 
@@ -45,12 +49,26 @@ public class User implements UserDetails {
 
   private String role;
 
+  public UserDTO toDTO(){
+    UserDTO dto = new UserDTO();
+    // dto.setId(this.id); //Not Needed
+    dto.setEmail(this.email);
+    dto.setFullName(this.fullName);
+    dto.setRole(this.role);
+    if(this.resumes != null){
+      dto.setResume(this.resumes.stream().map(Resume::getResumeName).collect(Collectors.toList()));
+    }
+    return dto;
+  }
+
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   @Nullable
+  @JsonIgnore
   private List<JobPost> jobPost = new ArrayList<>();
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   @Nullable
+  @JsonIgnore
   private List<Resume> resumes = new ArrayList<>();
 
   @Override

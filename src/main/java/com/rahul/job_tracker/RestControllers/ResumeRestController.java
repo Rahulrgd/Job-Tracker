@@ -1,8 +1,10 @@
 package com.rahul.job_tracker.RestControllers;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +28,17 @@ public class ResumeRestController {
     }
 
     @PostMapping("/create-resume")
-    public ResponseEntity<Resume> createResume(@RequestParam("file") MultipartFile file, @RequestParam("userId") Long userId){
-        return resumeServices.saveResume(file,userId);
+    public ResponseEntity<Resume> createResume(@RequestParam("file") MultipartFile file){
+        try {
+            Resume savedResume = resumeServices.saveResume(file);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedResume);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
+
+    // @PostMapping("/create-resume")
+    // public String createResume(@RequestParam("file") MultipartFile file){
+    //    return "Api is working fine!!";
+    // }
 }
