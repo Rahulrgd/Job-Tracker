@@ -75,4 +75,10 @@ public class JobPostServices {
         User user = getUser();
         return ResponseEntity.status(HttpStatus.OK).body(jobPostRepository.countByUser(user));
     }
+
+    public JobPost retrieveUserJobPostWithId(UUID jobPostId){
+        Optional<JobPost> optionalJobPost = jobPostRepository.findById(jobPostId);
+        JobPost jobPost = optionalJobPost.orElseThrow(()-> new IllegalArgumentException("No job post found with id: " + jobPostId));
+        return jobPost;
+    }
 }

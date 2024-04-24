@@ -45,14 +45,6 @@ public class UserServices {
     return userRepository.findAll();
   }
 
-  // public UserDTO getUserWithID(UUID id) {
-  //   Optional<User> optionalUser = userRepository.findById(id);
-  //   User user = optionalUser.orElseThrow(() ->
-  //     new IllegalArgumentException("User Not Found with ID: " + id)
-  //   );
-  //   return user.toDTO();
-  // }
-
   public UserDTO getUserDetails() {
     Optional<User> optionalUser = userRepository.findById(
       getAuthenticatedUser().getId()

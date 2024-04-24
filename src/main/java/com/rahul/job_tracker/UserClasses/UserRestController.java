@@ -28,12 +28,7 @@ public class UserRestController {
     return userServices.createUser(user);
   }
 
-  // @GetMapping("/v1/user-detail-with-id")
-  // public UserDTO getUserWithID(@RequestParam UUID id){
-  //   return userServices.getUserWithID(id);
-  // }
-
-  @GetMapping("/user-detail")
+  @GetMapping("/v1/user-detail")
   public UserDTO getUserDetails(){
     return userServices.getUserDetails();
   }
