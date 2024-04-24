@@ -81,4 +81,43 @@ public class JobPostServices {
         JobPost jobPost = optionalJobPost.orElseThrow(()-> new IllegalArgumentException("No job post found with id: " + jobPostId));
         return jobPost;
     }
+
+    // public ResponseEntity<String> updateJobPost(UUID jobPostId, JobPost jobPost){
+    public ResponseEntity<String> updateJobPost(JobPost jobPost){
+        // Optional<JobPost> optionalJobPost = jobPostRepository.findById(jobPostId);
+        Optional<JobPost> optionalJobPost = jobPostRepository.findById(jobPost.getId());
+        JobPost existingJobPost = optionalJobPost.orElseThrow(()-> new IllegalArgumentException("Job post does not exist with id: " + jobPost.getId()));
+
+        if(jobPost.getJobTitle() != null){
+            existingJobPost.setJobTitle(jobPost.getJobTitle());
+        }
+
+        if(jobPost.getCompanyName() != null){
+            existingJobPost.setCompanyName(jobPost.getCompanyName());
+        }
+
+        if(jobPost.getJobDescription() != null){
+            existingJobPost.setJobDescription(jobPost.getJobDescription());
+        }
+
+        if(jobPost.getJobLink() != null){
+            existingJobPost.setJobLink(jobPost.getJobLink());
+        }
+
+        if(jobPost.getStatus() != null){
+            existingJobPost.setStatus(jobPost.getStatus());
+        }
+
+        if(jobPost.getJobDate() != null){
+            existingJobPost.setJobDate(jobPost.getJobDate());
+        }
+
+        try {
+            
+            jobPostRepository.save(existingJobPost);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Updation failed due to: "+e.getMessage());
+        }
+        return ResponseEntity.status(HttpStatus.OK).body("Job post updated successfully;");
+    }
 }
