@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface JobPostRepository extends JpaRepository<JobPost, UUID> {
   public List<JobPost> findByUser(User user);
+  public int countByUser(User user);
 }
