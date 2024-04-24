@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,6 +23,14 @@ public class UserServices {
   @Autowired
   private PasswordEncoder passwordEncoder;
 
+  public User getAuthenticatedUser() {
+    User user = (User) SecurityContextHolder
+      .getContext()
+      .getAuthentication()
+      .getPrincipal();
+    return user;
+  }
+
   public ResponseEntity<UserDTO> createUser(User user) {
     User newUser = new User();
     newUser.setFullName(user.getFullName());
@@ -36,10 +45,20 @@ public class UserServices {
     return userRepository.findAll();
   }
 
-  public UserDTO getUserWithID(UUID id) {
-    Optional<User> optionalUser = userRepository.findById(id);
+  // public UserDTO getUserWithID(UUID id) {
+  //   Optional<User> optionalUser = userRepository.findById(id);
+  //   User user = optionalUser.orElseThrow(() ->
+  //     new IllegalArgumentException("User Not Found with ID: " + id)
+  //   );
+  //   return user.toDTO();
+  // }
+
+  public UserDTO getUserDetails() {
+    Optional<User> optionalUser = userRepository.findById(
+      getAuthenticatedUser().getId()
+    );
     User user = optionalUser.orElseThrow(() ->
-      new IllegalArgumentException("User Not Found with ID: " + id)
+      new IllegalArgumentException("User Not Found with ID: " + getAuthenticatedUser().getId())
     );
     return user.toDTO();
   }
