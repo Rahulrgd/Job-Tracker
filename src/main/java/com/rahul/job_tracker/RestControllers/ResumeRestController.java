@@ -22,12 +22,12 @@ public class ResumeRestController {
     @Autowired
     private ResumeServices resumeServices;
 
-    @GetMapping("/all-resume")
+    @GetMapping("/v1/all-resume")
     public List<Resume> getAllResume(){
         return resumeServices.getAllResume();
     }
 
-    @PostMapping("/create-resume")
+    @PostMapping("/v1/create-resume")
     public ResponseEntity<Resume> createResume(@RequestParam("file") MultipartFile file){
         try {
             Resume savedResume = resumeServices.saveResume(file);
@@ -37,8 +37,8 @@ public class ResumeRestController {
         }
     }
 
-    // @PostMapping("/create-resume")
-    // public String createResume(@RequestParam("file") MultipartFile file){
-    //    return "Api is working fine!!";
-    // }
+    @GetMapping("/v1/user-resume-count")
+    public int countUsersResume(){
+        return resumeServices.countUserResumes();
+    }
 }

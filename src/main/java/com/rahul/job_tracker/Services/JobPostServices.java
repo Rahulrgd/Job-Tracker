@@ -33,7 +33,7 @@ public class JobPostServices {
     @Autowired
     private ResumeRepository resumeRepository;
 
-    public User getUser(){
+    private User getUser(){
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
