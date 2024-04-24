@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rahul.job_tracker.DTO.JobPostDTO;
 import com.rahul.job_tracker.UserClasses.User;
 import io.micrometer.common.lang.Nullable;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -11,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
@@ -34,8 +36,12 @@ public class JobPost {
 
   private String jobTitle;
   private String companyName;
-  private String jobDescription;
   private LocalDate jobDate;
+
+  @Column(length = 512)
+  private String jobDescription;
+
+  @Column(length = 512)
   private String jobLink;
 
   @Enumerated(EnumType.STRING)
@@ -67,7 +73,7 @@ public class JobPost {
   @Nullable
   private String resumeName;
 
-  public void setResumeName(){
+  public void setResumeName() {
     this.resumeName = resume.getResumeName();
   }
 }
