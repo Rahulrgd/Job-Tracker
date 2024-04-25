@@ -4,9 +4,11 @@ import com.rahul.job_tracker.DTO.ResumeDTO;
 import com.rahul.job_tracker.Entities.Resume;
 import com.rahul.job_tracker.Services.ResumeServices;
 import java.util.List;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,5 +46,10 @@ public class ResumeRestController {
   @GetMapping("/v1/retrieve-user-resumes")
   public List<ResumeDTO> retrieveUserResume() {
     return resumeServices.retrieveUserResumes();
+  }
+
+  @DeleteMapping("/v1/delete-user-resume")
+  public ResponseEntity<String> deleteUserResume(UUID resumeId) {
+    return resumeServices.deleteUserResume(resumeId);
   }
 }

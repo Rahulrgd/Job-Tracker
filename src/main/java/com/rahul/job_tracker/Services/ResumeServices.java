@@ -66,4 +66,9 @@ public class ResumeServices {
       .map(resume -> resume.toDTO())
       .collect(Collectors.toList());
   }
+
+  public ResponseEntity<String> deleteUserResume(UUID resumeId){
+    resumeRepository.deleteById(resumeId);
+    return ResponseEntity.status(HttpStatus.OK).body("Resume deleted successfully.");
+  }
 }
