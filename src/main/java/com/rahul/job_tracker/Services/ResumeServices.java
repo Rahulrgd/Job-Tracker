@@ -1,15 +1,16 @@
 package com.rahul.job_tracker.Services;
 
+import com.rahul.job_tracker.DTO.ResumeDTO;
 import com.rahul.job_tracker.Entities.Resume;
 import com.rahul.job_tracker.Repositories.ResumeRepository;
 import com.rahul.job_tracker.UserClasses.User;
 import com.rahul.job_tracker.UserClasses.UserRepository;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +27,11 @@ public class ResumeServices {
   @Autowired
   private UserRepository userRepository;
 
-  private User getUser(){
-    return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+  private User getUser() {
+    return (User) SecurityContextHolder
+      .getContext()
+      .getAuthentication()
+      .getPrincipal();
   }
 
   public List<Resume> getAllResume() {
@@ -37,24 +41,29 @@ public class ResumeServices {
   public Resume saveResume(MultipartFile file) {
     Resume resume = new Resume();
     try {
-        byte[] resumeFile = file.getBytes();
-        resume.setResume(resumeFile);
-        String resumeName = file.getOriginalFilename();
-        resume.setResumeName(resumeName);
+      byte[] resumeFile = file.getBytes();
+      resume.setResume(resumeFile);
+      String resumeName = file.getOriginalFilename();
+      resume.setResumeName(resumeName);
     } catch (IOException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-        throw new RuntimeException("Failed to save resume", e);
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+      throw new RuntimeException("Failed to save resume", e);
     }
-    User user = getUser();
-    resume.setUser(user);
+    resume.setUser(getUser());
     return resumeRepository.save(resume);
-    // return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 
-  public int countUserResumes(){
+  public int countUserResumes() {
     User user = getUser();
     return resumeRepository.countByUser(null);
   }
-}
 
+  public List<ResumeDTO> retrieveUserResumes() {
+    List<Resume> resumes = resumeRepository.findByUser(getUser());
+    return resumes
+      .stream()
+      .map(resume -> resume.toDTO())
+      .collect(Collectors.toList());
+  }
+}

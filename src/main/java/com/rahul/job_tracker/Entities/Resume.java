@@ -1,6 +1,7 @@
 package com.rahul.job_tracker.Entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.rahul.job_tracker.DTO.ResumeDTO;
 import com.rahul.job_tracker.UserClasses.User;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
@@ -76,5 +77,13 @@ public class Resume {
         "File size exceeds the maximum allowed size of 200 KB"
       );
     }
+  }
+
+  public ResumeDTO toDTO(){
+    ResumeDTO dto = new ResumeDTO();
+    dto.setResumeId(this.id);
+    dto.setResumeName(getResumeName());
+    dto.setUser(this.user);
+    return dto;
   }
 }
