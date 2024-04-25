@@ -17,4 +17,5 @@ public class JobPostDTO {
   private String jobDescription;
   private LocalDate jobDate;
   private String jobLink;
+  private String username;
 }

@@ -67,6 +67,7 @@ public class JobPost {
     dto.setJobDescription(this.jobDescription);
     dto.setJobDate(this.jobDate);
     dto.setJobLink(this.jobLink);
+    dto.setUsername(user.getUsername());
     return dto;
   }
 
