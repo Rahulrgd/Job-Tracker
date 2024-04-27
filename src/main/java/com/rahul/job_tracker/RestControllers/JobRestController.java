@@ -6,6 +6,7 @@ import com.rahul.job_tracker.Services.JobPostServices;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.validation.annotation.Validated;
@@ -68,6 +69,9 @@ public class JobRestController {
 
   @PostMapping("/v1/add-job-with-job-id")
   public ResponseEntity<String> addJobWithJobId(@RequestParam UUID jobPostId){
+    // if(jobPostServices.checkJobPostInUserJobList(jobPostId)){
+    //   return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Job post already exists with id: " + jobPostId);
+    // }
     return jobPostServices.addJobWithJobId(jobPostId);
   }
 }

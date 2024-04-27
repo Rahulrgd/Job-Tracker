@@ -16,6 +16,7 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -42,17 +43,24 @@ public class JobPostServices {
       .getPrincipal();
   }
 
+  // ==========================Retrieve All JobPosts===========================================
+
   public List<JobPostDTO> allJobPosts() {
+    Sort sort = Sort.by("jobDate").descending();
     return jobPostRepository
-      .findAll()
+      .findAll(sort)
       .stream()
       .map(jobpost -> jobpost.toDTO())
+      .filter(jobpost -> jobpost.getClone() == false)
       .collect(Collectors.toList());
   }
+
+  // =============================Create Job Post=====================================
 
   public ResponseEntity<JobPostDTO> createJobPosts(JobPost jobPost) {
     User user = getUser();
     jobPost.setUser(user);
+    jobPost.setClone(false);
     jobPostRepository.save(jobPost);
     return ResponseEntity.status(HttpStatus.CREATED).body(jobPost.toDTO());
   }
@@ -83,10 +91,11 @@ public class JobPostServices {
   }
 
   public ResponseEntity<List<JobPost>> retrieveUserJobPosts() {
+    Sort sort = Sort.by("jobDate").descending();
     User user = getUser();
     return ResponseEntity
       .status(HttpStatus.OK)
-      .body(jobPostRepository.findByUser(user));
+      .body(jobPostRepository.findByUser(user, sort));
   }
 
   public ResponseEntity<Integer> countUserJobPosts() {
@@ -96,6 +105,7 @@ public class JobPostServices {
       .body(jobPostRepository.countByUser(user));
   }
 
+  // =========================Retrieve User JobPost With ID===============================
   public JobPost retrieveUserJobPostWithId(UUID jobPostId) {
     Optional<JobPost> optionalJobPost = jobPostRepository.findById(jobPostId);
     JobPost jobPost = optionalJobPost.orElseThrow(() ->
@@ -104,9 +114,9 @@ public class JobPostServices {
     return jobPost;
   }
 
-  // public ResponseEntity<String> updateJobPost(UUID jobPostId, JobPost jobPost){
+  // ============================Update Job Posts=============================
+
   public ResponseEntity<String> updateJobPost(JobPost jobPost) {
-    // Optional<JobPost> optionalJobPost = jobPostRepository.findById(jobPostId);
     Optional<JobPost> optionalJobPost = jobPostRepository.findById(
       jobPost.getId()
     );
@@ -152,28 +162,31 @@ public class JobPostServices {
       .body("Job post updated successfully;");
   }
 
+  // =============================Clone Job Post==================================
   public ResponseEntity<String> addJobWithJobId(UUID jobPostid) {
-    if (jobPostRepository.existsById(jobPostid)) {
-      Optional<JobPost> optionalJobPost = jobPostRepository.findById(jobPostid);
-      JobPost oldJobPost = optionalJobPost.orElseThrow(() ->
-        new IllegalArgumentException("Job does not exist with id: " + jobPostid)
-      );
-      JobStatusEnum status = JobStatusEnum.BOOKMARKED;
-      JobPost newJobPost = new JobPost();
-      newJobPost.setUser(getUser());
-      newJobPost.setJobTitle(oldJobPost.getJobTitle());
-      newJobPost.setCompanyName(oldJobPost.getCompanyName());
-      newJobPost.setJobDescription(oldJobPost.getJobDescription());
-      newJobPost.setJobLink(oldJobPost.getJobLink());
-      newJobPost.setStatus(status);
-      newJobPost.setJobDate(LocalDate.now());
-      jobPostRepository.save(newJobPost);
-      return ResponseEntity
-        .status(HttpStatus.CREATED)
-        .body("Job post added successfully to your account.");
-    }
+    Optional<JobPost> optionalJobPost = jobPostRepository.findById(jobPostid);
+    JobPost oldJobPost = optionalJobPost.orElseThrow(() ->
+      new IllegalArgumentException("Job does not exist with id: " + jobPostid)
+    );
+    JobStatusEnum status = JobStatusEnum.BOOKMARKED;
+    JobPost newJobPost = new JobPost();
+    newJobPost.setUser(getUser());
+    newJobPost.setJobTitle(oldJobPost.getJobTitle());
+    newJobPost.setCompanyName(oldJobPost.getCompanyName());
+    newJobPost.setJobDescription(oldJobPost.getJobDescription());
+    newJobPost.setJobLink(oldJobPost.getJobLink());
+    newJobPost.setClone(true);
+    newJobPost.setStatus(status);
+    newJobPost.setJobDate(LocalDate.now());
+    jobPostRepository.save(newJobPost);
     return ResponseEntity
-      .status(HttpStatus.INTERNAL_SERVER_ERROR)
-      .body("Job already exists in your account.");
+      .status(HttpStatus.CREATED)
+      .body("Job post added successfully to your account.");
+  }
+
+  public boolean checkJobPostInUserJobList(UUID jobPostId) {
+    return getUser()
+      .getJobPosts()
+      .contains(jobPostRepository.findById(jobPostId));
   }
 }

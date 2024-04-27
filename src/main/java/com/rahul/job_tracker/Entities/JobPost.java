@@ -3,7 +3,7 @@ package com.rahul.job_tracker.Entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rahul.job_tracker.DTO.JobPostDTO;
 import com.rahul.job_tracker.UserClasses.User;
-import io.micrometer.common.lang.Nullable;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -34,6 +34,9 @@ public class JobPost {
   @GeneratedValue(strategy = GenerationType.UUID)
   private UUID id;
 
+  @Nullable
+  private boolean clone;
+
   private String jobTitle;
   private String companyName;
   private LocalDate jobDate;
@@ -59,6 +62,13 @@ public class JobPost {
   @JsonIgnore
   private Resume resume;
 
+  @Nullable
+  private String resumeName;
+
+  public void setResumeName() {
+    this.resumeName = resume.getResumeName();
+  }
+
   public JobPostDTO toDTO() {
     JobPostDTO dto = new JobPostDTO();
     dto.setJobPostId(this.id);
@@ -68,13 +78,7 @@ public class JobPost {
     dto.setJobDate(this.jobDate);
     dto.setJobLink(this.jobLink);
     dto.setUsername(user.getUsername());
+    dto.setClone(this.clone);
     return dto;
-  }
-
-  @Nullable
-  private String resumeName;
-
-  public void setResumeName() {
-    this.resumeName = resume.getResumeName();
   }
 }

@@ -11,8 +11,8 @@ public class HomePage {
     @Autowired
     JobPostServices jobPostServices;
     
-    @GetMapping("/welcome")
+    @GetMapping("/")
     public String welcome(){
-        return "Welcome to Job Tracking Web Application!";
+        return "Congratulations!!";
     }
 }

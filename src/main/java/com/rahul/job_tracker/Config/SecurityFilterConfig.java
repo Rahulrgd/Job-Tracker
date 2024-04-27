@@ -1,10 +1,8 @@
 package com.rahul.job_tracker.Config;
 
 import com.rahul.job_tracker.JwtAuthentication.JwtAuthenticationFilter;
-import lombok.AllArgsConstructor;
-
 import java.util.Arrays;
-
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,6 +29,11 @@ public class SecurityFilterConfig {
   CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
     configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+    // configuration.setAllowedOrigins(
+    //   Arrays.asList(
+    //     "http://job-tracker-and-manager.s3-website.eu-north-1.amazonaws.com/"
+    //   )
+    // );
     configuration.setAllowedMethods(Arrays.asList("*"));
     configuration.setAllowedHeaders(Arrays.asList("*"));
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -49,8 +52,7 @@ public class SecurityFilterConfig {
       )
       .authorizeHttpRequests(auth ->
         auth
-          // .requestMatchers("/sign-up/", "/authenticate","/h2-console/**")
-          .requestMatchers("/sign-up/", "/authenticate", "/v1/all-jobs")
+          .requestMatchers("/", "/sign-up/", "/authenticate", "/v1/all-jobs")
           .permitAll()
           .anyRequest()
           .authenticated()

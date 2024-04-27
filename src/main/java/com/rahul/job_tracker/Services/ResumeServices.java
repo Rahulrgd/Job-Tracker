@@ -67,8 +67,14 @@ public class ResumeServices {
       .collect(Collectors.toList());
   }
 
-  public ResponseEntity<String> deleteUserResume(UUID resumeId){
+  public ResponseEntity<String> deleteUserResume(UUID resumeId) {
     resumeRepository.deleteById(resumeId);
-    return ResponseEntity.status(HttpStatus.OK).body("Resume deleted successfully.");
+    return ResponseEntity
+      .status(HttpStatus.OK)
+      .body("Resume deleted successfully.");
+  }
+
+  public ResponseEntity<byte[]> downloadUserResume(UUID resumeId) {
+    return ResponseEntity.status(HttpStatus.OK).body(resumeRepository.findById(resumeId).orElseThrow().getResumeFile());
   }
 }

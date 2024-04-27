@@ -52,4 +52,9 @@ public class ResumeRestController {
   public ResponseEntity<String> deleteUserResume(UUID resumeId) {
     return resumeServices.deleteUserResume(resumeId);
   }
+
+  @GetMapping("/v1/download-user-resume")
+  public ResponseEntity<byte[]> downloadUserResume(@RequestParam UUID resumeId){
+    return resumeServices.downloadUserResume(resumeId);
+  }
 }
