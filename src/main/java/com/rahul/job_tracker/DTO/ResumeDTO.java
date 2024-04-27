@@ -1,7 +1,8 @@
 package com.rahul.job_tracker.DTO;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.rahul.job_tracker.UserClasses.User;
+import com.rahul.job_tracker.Entities.User;
+
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

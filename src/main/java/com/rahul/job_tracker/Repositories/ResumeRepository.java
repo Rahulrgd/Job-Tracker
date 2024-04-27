@@ -1,7 +1,8 @@
 package com.rahul.job_tracker.Repositories;
 
 import com.rahul.job_tracker.Entities.Resume;
-import com.rahul.job_tracker.UserClasses.User;
+import com.rahul.job_tracker.Entities.User;
+
 import java.util.List;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;

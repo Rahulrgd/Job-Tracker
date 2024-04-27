@@ -2,7 +2,7 @@ package com.rahul.job_tracker.Entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rahul.job_tracker.DTO.JobPostDTO;
-import com.rahul.job_tracker.UserClasses.User;
+
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -41,10 +41,10 @@ public class JobPost {
   private String companyName;
   private LocalDate jobDate;
 
-  @Column(length = 512)
+  @Column(length = 2560)
   private String jobDescription;
 
-  @Column(length = 512)
+  @Column(length = 2048)
   private String jobLink;
 
   @Enumerated(EnumType.STRING)

@@ -1,8 +1,8 @@
-package com.rahul.job_tracker.UserClasses;
+package com.rahul.job_tracker.Entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.rahul.job_tracker.Entities.JobPost;
-import com.rahul.job_tracker.Entities.Resume;
+import com.rahul.job_tracker.DTO.UserDTO;
+
 import jakarta.annotation.Nullable;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

@@ -1,4 +1,4 @@
-package com.rahul.job_tracker.UserClasses;
+package com.rahul.job_tracker.DTO;
 
 import java.util.List;
 import java.util.UUID;

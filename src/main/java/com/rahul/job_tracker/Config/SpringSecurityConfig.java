@@ -1,6 +1,5 @@
 package com.rahul.job_tracker.Config;
 
-import com.rahul.job_tracker.UserClasses.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +12,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+
+import com.rahul.job_tracker.Repositories.UserRepository;
 
 @Configuration
 public class SpringSecurityConfig {
