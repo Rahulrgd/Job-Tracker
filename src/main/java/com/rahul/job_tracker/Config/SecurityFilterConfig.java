@@ -45,6 +45,7 @@ public class SecurityFilterConfig {
     CorsConfiguration configuration = new CorsConfiguration();
     // configuration.setAllowedOrigins(Arrays.asList(getOrigin()));
     configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+    // configuration.setAllowedOrigins(Arrays.asList("http://job-tracker-and-manager.s3-website.eu-north-1.amazonaws.com"));
     configuration.setAllowedMethods(Arrays.asList("*"));
     configuration.setAllowedHeaders(Arrays.asList("*"));
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

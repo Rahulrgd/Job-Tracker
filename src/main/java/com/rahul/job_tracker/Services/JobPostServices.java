@@ -8,7 +8,6 @@ import com.rahul.job_tracker.Entities.User;
 import com.rahul.job_tracker.Repositories.JobPostRepository;
 import com.rahul.job_tracker.Repositories.ResumeRepository;
 import com.rahul.job_tracker.Repositories.UserRepository;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -37,6 +36,7 @@ public class JobPostServices {
   @Autowired
   private ResumeRepository resumeRepository;
 
+  // ==================================Get User from Security Context Holder==================
   private User getUser() {
     return (User) SecurityContextHolder
       .getContext()
@@ -58,14 +58,18 @@ public class JobPostServices {
 
   // =============================Create Job Post=====================================
 
-  public ResponseEntity<JobPostDTO> createJobPosts(JobPost jobPost) {
+  public ResponseEntity<String> createJobPosts(JobPost jobPost) {
     User user = getUser();
     jobPost.setUser(user);
     jobPost.setClone(false);
+
     jobPostRepository.save(jobPost);
-    return ResponseEntity.status(HttpStatus.CREATED).body(jobPost.toDTO());
+    return ResponseEntity
+      .status(HttpStatus.CREATED)
+      .body("Job post created Successfully");
   }
 
+  // =============================Set Resume to Job Post======================================
   public ResponseEntity<JobPostDTO> setResume(JobPost jobPost, UUID resumeId) {
     Optional<Resume> optionalResume = resumeRepository.findById(resumeId);
     Resume resume = optionalResume.orElseThrow(() ->
@@ -76,6 +80,7 @@ public class JobPostServices {
     return ResponseEntity.status(HttpStatus.OK).body(jobPost.toDTO());
   }
 
+  // =================================Delete User's Job Post======================================
   public ResponseEntity<String> deleteUsersJobPost(UUID jobPostId) {
     Optional<JobPost> optionalJobPost = jobPostRepository.findById(jobPostId);
     JobPost jobPost = optionalJobPost.orElseThrow(() ->
@@ -91,6 +96,7 @@ public class JobPostServices {
       .body("Job post deleted successfully.");
   }
 
+  // =============================Retrieve User's Job Posts=================================
   public ResponseEntity<List<JobPost>> retrieveUserJobPosts() {
     Sort sort = Sort.by("jobDate").descending();
     User user = getUser();
@@ -99,6 +105,7 @@ public class JobPostServices {
       .body(jobPostRepository.findByUser(user, sort));
   }
 
+  // ==============================Count User Job Posts=====================================
   public ResponseEntity<Integer> countUserJobPosts() {
     User user = getUser();
     return ResponseEntity
@@ -116,7 +123,6 @@ public class JobPostServices {
   }
 
   // ============================Update Job Posts=============================
-
   public ResponseEntity<String> updateJobPost(JobPost jobPost) {
     Optional<JobPost> optionalJobPost = jobPostRepository.findById(
       jobPost.getId()
@@ -185,13 +191,15 @@ public class JobPostServices {
       .body("Job post added successfully to your account.");
   }
 
+  // =======================Check Job Post Exists in User Account or Not========================
   public boolean checkJobPostInUserJobList(UUID jobPostId) {
     return getUser()
       .getJobPosts()
       .contains(jobPostRepository.findById(jobPostId));
   }
+
   // ==========================Retrieve User's Job Posts per Day==================================
-  public List<Object[]> retrieveUsersPerDayJobPosts(){
+  public List<Object[]> retrieveUsersPerDayJobPosts() {
     return jobPostRepository.countUsersPostPerDay(getUser());
   }
 }

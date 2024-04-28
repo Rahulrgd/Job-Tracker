@@ -3,13 +3,18 @@ package com.rahul.job_tracker.RestControllers;
 import com.rahul.job_tracker.DTO.JobPostDTO;
 import com.rahul.job_tracker.Entities.JobPost;
 import com.rahul.job_tracker.Services.JobPostServices;
+import jakarta.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.ResponseEntity.BodyBuilder;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,16 +29,31 @@ public class JobRestController {
   @Autowired
   private JobPostServices jobPostServices;
 
+  // =============================Retrieve All Job Posts==========================================
   @GetMapping("/v1/all-jobs")
   public List<JobPostDTO> allJobPosts() {
     return jobPostServices.allJobPosts();
   }
 
+  // =============================Add User's Job Post==========================================
   @PostMapping("/v1/add-job")
-  public ResponseEntity<JobPostDTO> addJob(@RequestBody JobPost jobPost) {
+  public ResponseEntity<String> addJob(
+    @Valid @RequestBody JobPost jobPost,
+    BindingResult bindingResult
+  ) {
+    if (bindingResult.hasErrors()) {
+      StringBuilder errorMessage = new StringBuilder();
+      for (FieldError error : bindingResult.getFieldErrors()) {
+        errorMessage.append(error.getDefaultMessage()).append(" ");
+      }
+      return ResponseEntity
+        .status(HttpStatus.BAD_REQUEST)
+        .body(errorMessage.toString());
+    }
     return jobPostServices.createJobPosts(jobPost);
   }
 
+  // =============================Set Resume to User's Job Post==========================================
   @PutMapping("/v1/set-resume")
   public ResponseEntity<JobPostDTO> setResume(
     @RequestBody JobPost jobPost,
@@ -42,6 +62,7 @@ public class JobRestController {
     return jobPostServices.setResume(jobPost, resumeID);
   }
 
+  // ================================Delete User's Job Post=======================================
   @DeleteMapping("/v1/delete-job-post")
   public ResponseEntity<String> deleteUsersJobPost(
     @RequestParam UUID jobPostId
@@ -49,26 +70,31 @@ public class JobRestController {
     return jobPostServices.deleteUsersJobPost(jobPostId);
   }
 
+  // ===============================Retrieve User's Job Posts========================================
   @GetMapping("/v1/retrieve-user-job-posts")
   public ResponseEntity<List<JobPost>> retrieveUserJobPosts() {
     return jobPostServices.retrieveUserJobPosts();
   }
 
+  // ============================Count User's Job Posts===========================================
   @GetMapping("/v1/count-user-job-posts")
   public ResponseEntity<Integer> countUserJobPosts() {
     return jobPostServices.countUserJobPosts();
   }
 
+  // ================================Retrive Job Post with Job Post ID=======================================
   @GetMapping("/v1/retrieve-job-post-with-user-id")
   public JobPost retrieveJobPostWithUserId(UUID jobPostId) {
     return jobPostServices.retrieveUserJobPostWithId(jobPostId);
   }
 
+  // ================================Update Job Post Details=======================================
   @PutMapping("/v1/update-job-post")
   public ResponseEntity<String> updateJobPost(@RequestBody JobPost jobPost) {
     return jobPostServices.updateJobPost(jobPost);
   }
 
+  // =================================Add Job Posts From Dashboard to User's Account======================================
   @PostMapping("/v1/add-job-with-job-id")
   public ResponseEntity<String> addJobWithJobId(@RequestParam UUID jobPostId) {
     // if(jobPostServices.checkJobPostInUserJobList(jobPostId)){
@@ -77,6 +103,7 @@ public class JobRestController {
     return jobPostServices.addJobWithJobId(jobPostId);
   }
 
+  // ==================================Retrieve User's Job Posts Count Of Each Day=====================================
   @GetMapping("/v1/retrive-users-per-day-jobposts")
   public List<Object[]> retrieveUsersPerDayJobPosts() {
     return jobPostServices.retrieveUsersPerDayJobPosts();

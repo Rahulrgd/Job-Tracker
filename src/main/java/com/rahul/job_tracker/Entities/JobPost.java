@@ -2,7 +2,6 @@ package com.rahul.job_tracker.Entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rahul.job_tracker.DTO.JobPostDTO;
-
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,6 +15,8 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -37,11 +38,16 @@ public class JobPost {
   @Nullable
   private boolean clone;
 
+  @Size(min = 3, message = "Job title must have at least 3 characters.")
   private String jobTitle;
+
+  @Size(min = 3, message = "Comapany name must have at least 3 characters.")
   private String companyName;
+
   private LocalDate jobDate;
 
   @Column(length = 2560)
+  @Size(min = 3, message = "Job Description must have at least 3 characters.")
   private String jobDescription;
 
   @Column(length = 2048)
