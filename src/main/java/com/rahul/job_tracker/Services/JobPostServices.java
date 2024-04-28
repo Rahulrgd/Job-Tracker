@@ -190,4 +190,8 @@ public class JobPostServices {
       .getJobPosts()
       .contains(jobPostRepository.findById(jobPostId));
   }
+  // ==========================Retrieve User's Job Posts per Day==================================
+  public List<Object[]> retrieveUsersPerDayJobPosts(){
+    return jobPostRepository.countUsersPostPerDay(getUser());
+  }
 }

@@ -43,35 +43,42 @@ public class JobRestController {
   }
 
   @DeleteMapping("/v1/delete-job-post")
-  public ResponseEntity<String> deleteUsersJobPost(@RequestParam UUID jobPostId){
+  public ResponseEntity<String> deleteUsersJobPost(
+    @RequestParam UUID jobPostId
+  ) {
     return jobPostServices.deleteUsersJobPost(jobPostId);
   }
 
   @GetMapping("/v1/retrieve-user-job-posts")
-  public ResponseEntity<List<JobPost>> retrieveUserJobPosts(){
+  public ResponseEntity<List<JobPost>> retrieveUserJobPosts() {
     return jobPostServices.retrieveUserJobPosts();
   }
 
   @GetMapping("/v1/count-user-job-posts")
-  public ResponseEntity<Integer> countUserJobPosts(){
+  public ResponseEntity<Integer> countUserJobPosts() {
     return jobPostServices.countUserJobPosts();
   }
 
   @GetMapping("/v1/retrieve-job-post-with-user-id")
-  public JobPost retrieveJobPostWithUserId(UUID jobPostId){
+  public JobPost retrieveJobPostWithUserId(UUID jobPostId) {
     return jobPostServices.retrieveUserJobPostWithId(jobPostId);
   }
 
   @PutMapping("/v1/update-job-post")
-  public ResponseEntity<String> updateJobPost(@RequestBody JobPost jobPost){
+  public ResponseEntity<String> updateJobPost(@RequestBody JobPost jobPost) {
     return jobPostServices.updateJobPost(jobPost);
   }
 
   @PostMapping("/v1/add-job-with-job-id")
-  public ResponseEntity<String> addJobWithJobId(@RequestParam UUID jobPostId){
+  public ResponseEntity<String> addJobWithJobId(@RequestParam UUID jobPostId) {
     // if(jobPostServices.checkJobPostInUserJobList(jobPostId)){
     //   return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Job post already exists with id: " + jobPostId);
     // }
     return jobPostServices.addJobWithJobId(jobPostId);
+  }
+
+  @GetMapping("/v1/retrive-users-per-day-jobposts")
+  public List<Object[]> retrieveUsersPerDayJobPosts() {
+    return jobPostServices.retrieveUsersPerDayJobPosts();
   }
 }
