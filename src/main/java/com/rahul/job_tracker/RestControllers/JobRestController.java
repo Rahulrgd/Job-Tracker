@@ -1,9 +1,14 @@
 package com.rahul.job_tracker.RestControllers;
 
 import com.rahul.job_tracker.DTO.JobPostDTO;
+import com.rahul.job_tracker.DTO.TopPerformerDTO;
+import com.rahul.job_tracker.DTO.UserDTO;
 import com.rahul.job_tracker.Entities.JobPost;
+import com.rahul.job_tracker.Entities.JobStatusEnum;
 import com.rahul.job_tracker.Services.JobPostServices;
 import jakarta.validation.Valid;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -107,5 +112,29 @@ public class JobRestController {
   @GetMapping("/v1/retrive-users-per-day-jobposts")
   public List<Object[]> retrieveUsersPerDayJobPosts() {
     return jobPostServices.retrieveUsersPerDayJobPosts();
+  }
+
+  // ====================================Top 3 Performer's of the day with their Job Counts ===========================
+  @GetMapping("/v1/top-three-performer-of-the-day-with-their-job-count")
+  public ResponseEntity<List<TopPerformerDTO>> topPerformersOfTheDay() {
+    return jobPostServices.retrieveTopPerformersOfTheDay();
+  }
+
+  // =============================Retrieve JobPosts with Filters Applied===================================
+  @GetMapping("/v1/retrieve-job-posts-with-filters-applied")
+  public ResponseEntity<List<JobPostDTO>> retrieveJobPostsWithFiltersApplied(
+    @RequestParam String jobTitle,
+    @RequestParam String companyName,
+    @RequestParam String jobDescription,
+    @RequestParam LocalDate jobDate,
+    @RequestParam JobStatusEnum status
+  ) {
+    return jobPostServices.retrieveJobsByFilters(
+      jobTitle,
+      companyName,
+      jobDescription,
+      jobDate,
+      status
+    );
   }
 }

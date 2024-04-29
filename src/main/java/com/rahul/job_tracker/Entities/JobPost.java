@@ -54,7 +54,7 @@ public class JobPost {
   private String jobLink;
 
   @Enumerated(EnumType.STRING)
-  private JobStatusEnum Status;
+  private JobStatusEnum status;
 
   @ManyToOne
   @JoinColumn(name = "user_id")
@@ -85,6 +85,7 @@ public class JobPost {
     dto.setJobLink(this.jobLink);
     dto.setUsername(user.getUsername());
     dto.setClone(this.clone);
+    dto.setJobStatus(this.status);
     return dto;
   }
 }

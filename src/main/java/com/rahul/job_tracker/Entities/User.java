@@ -12,6 +12,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -42,12 +44,13 @@ public class User implements UserDetails {
   private String fullName;
 
   @Column(unique = true)
-  // @Email(message = "Please provide a valid email")
+  @Email(message = "Please provide a valid email")
   private String email;
 
   private String password;
   
   @Nullable
+  @JsonIgnore
   private String role;
 
   public UserDTO toDTO(){
@@ -73,6 +76,7 @@ public class User implements UserDetails {
   private List<Resume> resumes = new ArrayList<>();
 
   @Override
+  @JsonIgnore
   public Collection<? extends GrantedAuthority> getAuthorities() {
     // TODO Auto-generated method stub
     return Collections.singletonList(new SimpleGrantedAuthority(role));

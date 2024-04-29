@@ -1,6 +1,8 @@
 package com.rahul.job_tracker.Services;
 
 import com.rahul.job_tracker.DTO.JobPostDTO;
+import com.rahul.job_tracker.DTO.TopPerformerDTO;
+import com.rahul.job_tracker.DTO.UserDTO;
 import com.rahul.job_tracker.Entities.JobPost;
 import com.rahul.job_tracker.Entities.JobStatusEnum;
 import com.rahul.job_tracker.Entities.Resume;
@@ -9,11 +11,13 @@ import com.rahul.job_tracker.Repositories.JobPostRepository;
 import com.rahul.job_tracker.Repositories.ResumeRepository;
 import com.rahul.job_tracker.Repositories.UserRepository;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -23,8 +27,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
+@Slf4j
 public class JobPostServices {
 
   @Autowired
@@ -201,5 +207,58 @@ public class JobPostServices {
   // ==========================Retrieve User's Job Posts per Day==================================
   public List<Object[]> retrieveUsersPerDayJobPosts() {
     return jobPostRepository.countUsersPostPerDay(getUser());
+  }
+
+  // ==========================Top 3 Performer's of the day with their Job Counts ===================
+  public ResponseEntity<List<TopPerformerDTO>> retrieveTopPerformersOfTheDay() {
+    LocalDate date = LocalDate.now();
+    List<Object[]> results = jobPostRepository.topPerformersOfTheDay(date);
+
+    List<TopPerformerDTO> topPerformerDTOs = results
+      .stream()
+      .map(item -> {
+        User user = (User) item[0]; // Assuming the first element is the User object
+        Long count = (Long) item[1]; // Assuming the second element is the count
+
+        // Map user details to UserDTO
+        UserDTO userDTO = user.toDTO();
+        TopPerformerDTO result = new TopPerformerDTO();
+        result.setFullName(userDTO.getFullName());
+        result.setJobPostCount(count);
+        return result;
+      })
+      .collect(Collectors.toList());
+    log.info("Value of List Top Performers: " + topPerformerDTOs);
+
+    return ResponseEntity.status(HttpStatus.OK).body(topPerformerDTOs);
+  }
+
+  // ==========================Retrive Jobposts with Filters Applied==================================
+  public ResponseEntity<List<JobPostDTO>> retrieveJobsByFilters(
+    String jobTitle,
+    String companyName,
+    String jobDescription,
+    LocalDate jobDate,
+    JobStatusEnum status
+  ) {
+    // LocalDate date = LocalDate.now();
+    // if(jobDate == null){
+    //   date = LocalDate.now();
+    // }else{
+    //   date = jobDate;
+    // }
+    List<JobPostDTO> filteredJobPostDTO = jobPostRepository
+      .findJobPostByFilters(
+        jobTitle,
+        companyName,
+        jobDescription,
+        jobDate,
+        status
+      )
+      .stream()
+      .map(jobPost -> jobPost.toDTO())
+      .collect(Collectors.toList());
+
+    return ResponseEntity.status(HttpStatus.OK).body(filteredJobPostDTO);
   }
 }
