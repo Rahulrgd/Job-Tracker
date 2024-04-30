@@ -217,8 +217,8 @@ public class JobPostServices {
     List<TopPerformerDTO> topPerformerDTOs = results
       .stream()
       .map(item -> {
-        User user = (User) item[0]; // Assuming the first element is the User object
-        Long count = (Long) item[1]; // Assuming the second element is the count
+        User user = (User) item[0];
+        Long count = (Long) item[1];
 
         // Map user details to UserDTO
         UserDTO userDTO = user.toDTO();
@@ -241,12 +241,6 @@ public class JobPostServices {
     LocalDate jobDate,
     JobStatusEnum status
   ) {
-    // LocalDate date = LocalDate.now();
-    // if(jobDate == null){
-    //   date = LocalDate.now();
-    // }else{
-    //   date = jobDate;
-    // }
     List<JobPostDTO> filteredJobPostDTO = jobPostRepository
       .findJobPostByFilters(
         jobTitle,
@@ -260,5 +254,14 @@ public class JobPostServices {
       .collect(Collectors.toList());
 
     return ResponseEntity.status(HttpStatus.OK).body(filteredJobPostDTO);
+  }
+
+  // ==================================Retrive Job Posts Containting String==========================================
+  public ResponseEntity<List<JobPostDTO>> retriveJobPostsContaingString(
+    String string
+  ) {
+    return ResponseEntity
+      .status(HttpStatus.OK)
+      .body(jobPostRepository.findJobPostContaingString(string).stream().map(jobpost->jobpost.toDTO()).filter(jobpost->jobpost.getClone() != true).collect(Collectors.toList()));
   }
 }
