@@ -7,7 +7,6 @@ import com.rahul.job_tracker.Entities.JobPost;
 import com.rahul.job_tracker.Entities.JobStatusEnum;
 import com.rahul.job_tracker.Services.JobPostServices;
 import jakarta.validation.Valid;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -115,7 +114,9 @@ public class JobRestController {
   }
 
   // ====================================Top 3 Performer's of the day with their Job Counts ===========================
-  @GetMapping("/v1/dashboard/top-three-performer-of-the-day-with-their-job-count")
+  @GetMapping(
+    "/v1/dashboard/top-three-performer-of-the-day-with-their-job-count"
+  )
   public ResponseEntity<List<TopPerformerDTO>> topPerformersOfTheDay() {
     return jobPostServices.retrieveTopPerformersOfTheDay();
   }
@@ -137,9 +138,24 @@ public class JobRestController {
       status
     );
   }
+
   // ========================================Dashboard Search Functionality=============================================
   @GetMapping("/v1/dashboard/search-jobposts-containing-strings")
-  public ResponseEntity<List<JobPostDTO>> retriveJobPostsWithString(@RequestParam String string){
+  public ResponseEntity<List<JobPostDTO>> retriveJobPostsWithString(
+    @RequestParam String string
+  ) {
     return jobPostServices.retriveJobPostsContaingString(string);
+  }
+
+  // ======================================Search Box For User Component===================================
+  @GetMapping("/v1/search-user-jobposts-containing-string")
+  public ResponseEntity<List<JobPostDTO>> retrieveUserJobPostsContaingString(@RequestParam String string) {
+    return jobPostServices.retriveUserJobPostsContaingString(string);
+  }
+
+  // =======================================Retrive Job Post Count Per Day================================
+  @GetMapping("/v1/retrive-jobpost-count-per-day")
+  public ResponseEntity<List<Object[]>> retrieveJobCountsPerDay() {
+    return jobPostServices.retrieveJobCountsPerDay();
   }
 }

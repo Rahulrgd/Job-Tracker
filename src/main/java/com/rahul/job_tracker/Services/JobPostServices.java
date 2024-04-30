@@ -262,6 +262,34 @@ public class JobPostServices {
   ) {
     return ResponseEntity
       .status(HttpStatus.OK)
-      .body(jobPostRepository.findJobPostContaingString(string).stream().map(jobpost->jobpost.toDTO()).filter(jobpost->jobpost.getClone() != true).collect(Collectors.toList()));
+      .body(
+        jobPostRepository
+          .findJobPostContaingString(string)
+          .stream()
+          .map(jobpost -> jobpost.toDTO())
+          .filter(jobpost -> jobpost.getClone() != true)
+          .collect(Collectors.toList())
+      );
+  }
+
+  // ===================================Retrive User Job Posts Containting String======================================================
+  public ResponseEntity<List<JobPostDTO>> retriveUserJobPostsContaingString(
+    String string
+  ) {
+    return ResponseEntity
+      .status(HttpStatus.OK)
+      .body(
+        jobPostRepository
+          .findUserJobPostContaingString(getUser(), string)
+          .stream()
+          .map(jobpost -> jobpost.toDTO())
+          .filter(jobpost -> jobpost.getClone() != true)
+          .collect(Collectors.toList())
+      );
+  }
+
+  // ===================================Retrive Job Counts Per Day===============================
+  public ResponseEntity<List<Object[]>> retrieveJobCountsPerDay(){
+    return ResponseEntity.status(HttpStatus.OK).body(jobPostRepository.findJobCountPerDay());
   }
 }
