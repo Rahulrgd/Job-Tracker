@@ -1,8 +1,5 @@
-package com.rahul.job_tracker.RestControllers;
+package com.rahul.job_tracker.Resume;
 
-import com.rahul.job_tracker.DTO.ResumeDTO;
-import com.rahul.job_tracker.Entities.Resume;
-import com.rahul.job_tracker.Services.ResumeServices;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;

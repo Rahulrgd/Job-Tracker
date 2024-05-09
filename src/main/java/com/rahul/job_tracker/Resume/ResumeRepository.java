@@ -1,6 +1,5 @@
-package com.rahul.job_tracker.Repositories;
+package com.rahul.job_tracker.Resume;
 
-import com.rahul.job_tracker.Entities.Resume;
 import com.rahul.job_tracker.Entities.User;
 
 import java.util.List;

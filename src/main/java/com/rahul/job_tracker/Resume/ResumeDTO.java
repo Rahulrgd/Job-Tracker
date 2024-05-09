@@ -1,4 +1,4 @@
-package com.rahul.job_tracker.DTO;
+package com.rahul.job_tracker.Resume;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rahul.job_tracker.Entities.User;

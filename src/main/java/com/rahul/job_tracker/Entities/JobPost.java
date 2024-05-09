@@ -2,6 +2,8 @@ package com.rahul.job_tracker.Entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rahul.job_tracker.DTO.JobPostDTO;
+import com.rahul.job_tracker.Resume.Resume;
+
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,9 +1,6 @@
-package com.rahul.job_tracker.Services;
+package com.rahul.job_tracker.Resume;
 
-import com.rahul.job_tracker.DTO.ResumeDTO;
-import com.rahul.job_tracker.Entities.Resume;
 import com.rahul.job_tracker.Entities.User;
-import com.rahul.job_tracker.Repositories.ResumeRepository;
 import com.rahul.job_tracker.Repositories.UserRepository;
 
 import java.io.IOException;

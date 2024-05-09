@@ -5,11 +5,12 @@ import com.rahul.job_tracker.DTO.TopPerformerDTO;
 import com.rahul.job_tracker.DTO.UserDTO;
 import com.rahul.job_tracker.Entities.JobPost;
 import com.rahul.job_tracker.Entities.JobStatusEnum;
-import com.rahul.job_tracker.Entities.Resume;
 import com.rahul.job_tracker.Entities.User;
 import com.rahul.job_tracker.Repositories.JobPostRepository;
-import com.rahul.job_tracker.Repositories.ResumeRepository;
 import com.rahul.job_tracker.Repositories.UserRepository;
+import com.rahul.job_tracker.Resume.Resume;
+import com.rahul.job_tracker.Resume.ResumeRepository;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
