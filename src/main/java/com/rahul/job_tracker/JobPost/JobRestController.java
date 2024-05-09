@@ -1,10 +1,6 @@
-package com.rahul.job_tracker.RestControllers;
+package com.rahul.job_tracker.JobPost;
 
-import com.rahul.job_tracker.DTO.JobPostDTO;
-import com.rahul.job_tracker.DTO.TopPerformerDTO;
-import com.rahul.job_tracker.Entities.JobPost;
-import com.rahul.job_tracker.Entities.JobStatusEnum;
-import com.rahul.job_tracker.Services.JobPostServices;
+import com.rahul.job_tracker.Dashboard.TopPerformerDTO;
 import com.rahul.job_tracker.User.UserDTO;
 
 import jakarta.validation.Valid;

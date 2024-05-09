@@ -1,7 +1,5 @@
-package com.rahul.job_tracker.Repositories;
+package com.rahul.job_tracker.JobPost;
 
-import com.rahul.job_tracker.Entities.JobPost;
-import com.rahul.job_tracker.Entities.JobStatusEnum;
 import com.rahul.job_tracker.User.User;
 
 import java.time.LocalDate;

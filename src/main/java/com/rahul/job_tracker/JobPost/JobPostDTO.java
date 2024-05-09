@@ -1,10 +1,9 @@
-package com.rahul.job_tracker.DTO;
+package com.rahul.job_tracker.JobPost;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.rahul.job_tracker.Entities.JobStatusEnum;
 
 import lombok.Getter;
 import lombok.Setter;

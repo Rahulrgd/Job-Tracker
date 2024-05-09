@@ -1,4 +1,4 @@
-package com.rahul.job_tracker.DTO;
+package com.rahul.job_tracker.Dashboard;
 
 import lombok.Getter;
 import lombok.Setter;
