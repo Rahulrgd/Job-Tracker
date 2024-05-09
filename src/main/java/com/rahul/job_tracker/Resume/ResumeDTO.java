@@ -1,7 +1,7 @@
 package com.rahul.job_tracker.Resume;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.rahul.job_tracker.Entities.User;
+import com.rahul.job_tracker.User.User;
 
 import java.util.UUID;
 import lombok.AllArgsConstructor;

@@ -2,14 +2,14 @@ package com.rahul.job_tracker.Services;
 
 import com.rahul.job_tracker.DTO.JobPostDTO;
 import com.rahul.job_tracker.DTO.TopPerformerDTO;
-import com.rahul.job_tracker.DTO.UserDTO;
 import com.rahul.job_tracker.Entities.JobPost;
 import com.rahul.job_tracker.Entities.JobStatusEnum;
-import com.rahul.job_tracker.Entities.User;
 import com.rahul.job_tracker.Repositories.JobPostRepository;
-import com.rahul.job_tracker.Repositories.UserRepository;
 import com.rahul.job_tracker.Resume.Resume;
 import com.rahul.job_tracker.Resume.ResumeRepository;
+import com.rahul.job_tracker.User.User;
+import com.rahul.job_tracker.User.UserDTO;
+import com.rahul.job_tracker.User.UserRepository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

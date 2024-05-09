@@ -1,4 +1,4 @@
-package com.rahul.job_tracker.Services;
+package com.rahul.job_tracker.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,10 +13,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import com.rahul.job_tracker.DTO.UserDTO;
-import com.rahul.job_tracker.Entities.User;
-import com.rahul.job_tracker.Repositories.UserRepository;
 
 @Service
 public class UserServices {

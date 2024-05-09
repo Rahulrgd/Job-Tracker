@@ -2,7 +2,8 @@ package com.rahul.job_tracker.Repositories;
 
 import com.rahul.job_tracker.Entities.JobPost;
 import com.rahul.job_tracker.Entities.JobStatusEnum;
-import com.rahul.job_tracker.Entities.User;
+import com.rahul.job_tracker.User.User;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;

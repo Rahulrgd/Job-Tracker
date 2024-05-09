@@ -2,10 +2,11 @@ package com.rahul.job_tracker.RestControllers;
 
 import com.rahul.job_tracker.DTO.JobPostDTO;
 import com.rahul.job_tracker.DTO.TopPerformerDTO;
-import com.rahul.job_tracker.DTO.UserDTO;
 import com.rahul.job_tracker.Entities.JobPost;
 import com.rahul.job_tracker.Entities.JobStatusEnum;
 import com.rahul.job_tracker.Services.JobPostServices;
+import com.rahul.job_tracker.User.UserDTO;
+
 import jakarta.validation.Valid;
 import java.time.LocalDate;
 import java.util.ArrayList;

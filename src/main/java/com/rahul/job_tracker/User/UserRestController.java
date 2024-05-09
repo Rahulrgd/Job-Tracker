@@ -1,8 +1,5 @@
-package com.rahul.job_tracker.RestControllers;
+package com.rahul.job_tracker.User;
 
-import com.rahul.job_tracker.DTO.UserDTO;
-import com.rahul.job_tracker.Entities.User;
-import com.rahul.job_tracker.Services.UserServices;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;

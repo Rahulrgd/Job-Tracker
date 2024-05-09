@@ -13,7 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
-import com.rahul.job_tracker.Repositories.UserRepository;
+import com.rahul.job_tracker.User.UserRepository;
 
 @Configuration
 public class SpringSecurityConfig {
