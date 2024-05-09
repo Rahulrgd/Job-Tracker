@@ -76,7 +76,7 @@ public class JobRestController {
 
   // ===============================Retrieve User's Job Posts========================================
   @GetMapping("/v1/retrieve-user-job-posts")
-  public ResponseEntity<List<JobPost>> retrieveUserJobPosts() {
+  public ResponseEntity<List<JobPostDTO>> retrieveUserJobPosts() {
     return jobPostServices.retrieveUserJobPosts();
   }
 
@@ -154,7 +154,7 @@ public class JobRestController {
   }
 
   // =======================================Retrive Job Post Count Per Day================================
-  @GetMapping("/v1/retrive-jobpost-count-per-day")
+  @GetMapping("/v1/dashboard/retrive-jobpost-count-per-day")
   public ResponseEntity<List<Object[]>> retrieveJobCountsPerDay() {
     return jobPostServices.retrieveJobCountsPerDay();
   }

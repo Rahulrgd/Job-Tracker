@@ -44,9 +44,11 @@ public class JobPost {
   @Size(min = 3, message = "Comapany name must have at least 3 characters.")
   private String companyName;
 
+  @Nullable
   private LocalDate jobDate;
 
-  @Column(length = 2560)
+  // @Column(length = 2560)
+  @Column(length = 10000)
   @Size(min = 3, message = "Job Description must have at least 3 characters.")
   private String jobDescription;
 
@@ -83,7 +85,7 @@ public class JobPost {
     dto.setJobDescription(this.jobDescription);
     dto.setJobDate(this.jobDate);
     dto.setJobLink(this.jobLink);
-    dto.setUsername(user.getUsername());
+    dto.setUsername(user.getFullName());
     dto.setClone(this.clone);
     dto.setJobStatus(this.status);
     return dto;

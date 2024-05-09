@@ -32,7 +32,7 @@ public interface JobPostRepository extends JpaRepository<JobPost, UUID> {
   )
   public List<Object[]> topPerformersOfTheDay(@Param("date") LocalDate date);
 
-   // =============================Retrive Job Posts With Filters===================================
+  // =============================Retrive Job Posts With Filters===================================
   @Query(
     "SELECT jp FROM JobPost jp WHERE " +
     "(jp.jobTitle LIKE %:jobTitle% OR " +
@@ -51,24 +51,36 @@ public interface JobPostRepository extends JpaRepository<JobPost, UUID> {
 
   // ============================Retrive Job Posts Containg String======================================
   @Query(
-    "Select jp FROM JobPost jp WHERE " +
-    "jp.jobTitle LIKE %:string% OR " +
+    "SELECT jp FROM JobPost jp " +
+    "LEFT JOIN jp.user u " +
+    "WHERE jp.jobTitle LIKE %:string% OR " +
     "jp.companyName LIKE %:string% OR " +
-    "jp.jobDescription LIKE %:string%"
-    )
-    public List<JobPost> findJobPostContaingString(@Param("string") String string);
+    "jp.jobDescription LIKE %:string% OR " +
+    "jp.status LIKE %:string% OR " +
+    "u.fullName LIKE %:string% " +
+    "ORDER BY jp.jobDate "
+  )
+  public List<JobPost> findJobPostContaingString(
+    @Param("string") String string
+  );
 
-  // ============================Retrive Job Posts Containg String======================================
+  // ============================Retrive Users Job Posts Containg String======================================
   @Query(
     "Select jp FROM JobPost jp WHERE " +
     "(jp.user =:user) AND " +
     "(jp.jobTitle LIKE %:string% OR " +
     "jp.companyName LIKE %:string% OR " +
+    "jp.status LIKE %:string% OR " +
     "jp.jobDescription LIKE %:string%)"
-    )
-    List<JobPost> findUserJobPostContaingString(User user,@Param("string") String string);
+  )
+  List<JobPost> findUserJobPostContaingString(
+    User user,
+    @Param("string") String string
+  );
 
-    // ===============================Retrive Job Posts Per Day====================================
-    @Query("SELECT count(jp), jp.jobDate FROM JobPost jp WHERE jp.clone = false GROUP BY jp.jobDate ORDER BY jp.jobDate DESC")
-    public List<Object[]> findJobCountPerDay();
+  // ===============================Retrive Job Posts Per Day====================================
+  @Query(
+    "SELECT count(jp), jp.jobDate FROM JobPost jp WHERE jp.clone = false GROUP BY jp.jobDate ORDER BY jp.jobDate DESC"
+  )
+  public List<Object[]> findJobCountPerDay();
 }

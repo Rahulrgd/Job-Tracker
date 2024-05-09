@@ -68,7 +68,9 @@ public class JobPostServices {
     User user = getUser();
     jobPost.setUser(user);
     jobPost.setClone(false);
-
+    if(jobPost.getJobDate()==null){
+      jobPost.setJobDate(LocalDate.now());
+    }
     jobPostRepository.save(jobPost);
     return ResponseEntity
       .status(HttpStatus.CREATED)
@@ -103,12 +105,18 @@ public class JobPostServices {
   }
 
   // =============================Retrieve User's Job Posts=================================
-  public ResponseEntity<List<JobPost>> retrieveUserJobPosts() {
+  public ResponseEntity<List<JobPostDTO>> retrieveUserJobPosts() {
     Sort sort = Sort.by("jobDate").descending();
     User user = getUser();
     return ResponseEntity
       .status(HttpStatus.OK)
-      .body(jobPostRepository.findByUser(user, sort));
+      .body(
+        jobPostRepository
+          .findByUser(user, sort)
+          .stream()
+          .map(jobpost -> jobpost.toDTO())
+          .collect(Collectors.toList())
+      );
   }
 
   // ==============================Count User Job Posts=====================================
@@ -289,7 +297,9 @@ public class JobPostServices {
   }
 
   // ===================================Retrive Job Counts Per Day===============================
-  public ResponseEntity<List<Object[]>> retrieveJobCountsPerDay(){
-    return ResponseEntity.status(HttpStatus.OK).body(jobPostRepository.findJobCountPerDay());
+  public ResponseEntity<List<Object[]>> retrieveJobCountsPerDay() {
+    return ResponseEntity
+      .status(HttpStatus.OK)
+      .body(jobPostRepository.findJobCountPerDay());
   }
 }
