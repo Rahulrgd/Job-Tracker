@@ -5,6 +5,8 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.rahul.job_tracker.Resume.ResumeDTO;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,5 +21,5 @@ public class UserDTO {
     private String fullName;
     private String email;
     private String role;
-    private List<String> resume;
+    private List<ResumeDTO> resumeDTO;
 }

@@ -5,8 +5,8 @@ import com.rahul.job_tracker.Resume.Resume;
 import com.rahul.job_tracker.Resume.ResumeRepository;
 import com.rahul.job_tracker.User.User;
 import com.rahul.job_tracker.User.UserDTO;
+import com.rahul.job_tracker.User.UserMapper;
 import com.rahul.job_tracker.User.UserRepository;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +65,7 @@ public class JobPostServices {
     User user = getUser();
     jobPost.setUser(user);
     jobPost.setClone(false);
-    if(jobPost.getJobDate()==null){
+    if (jobPost.getJobDate() == null) {
       jobPost.setJobDate(LocalDate.now());
     }
     jobPostRepository.save(jobPost);
@@ -226,7 +226,9 @@ public class JobPostServices {
         Long count = (Long) item[1];
 
         // Map user details to UserDTO
-        UserDTO userDTO = user.toDTO();
+
+        // UserDTO userDTO = user.toDTO();
+        UserDTO userDTO = UserMapper.INSTANCE.toDTO(user);
         TopPerformerDTO result = new TopPerformerDTO();
         result.setFullName(userDTO.getFullName());
         result.setJobPostCount(count);
