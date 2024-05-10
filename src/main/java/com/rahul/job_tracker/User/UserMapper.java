@@ -1,7 +1,8 @@
 package com.rahul.job_tracker.User;
 
 import com.rahul.job_tracker.Resume.Resume;
-import com.rahul.job_tracker.Resume.ResumeDTO;
+import com.rahul.job_tracker.Resume.ResumeDTOs.ResumeDTO;
+
 import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

@@ -1,4 +1,4 @@
-package com.rahul.job_tracker.Resume;
+package com.rahul.job_tracker.Resume.ResumeDTOs;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rahul.job_tracker.User.User;
@@ -18,6 +18,6 @@ public class ResumeDTO {
   private UUID id;
   private String resumeName;
 
-  @JsonIgnore
-  private User user;
+  // @JsonIgnore
+  // private User user;
 }

@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.rahul.job_tracker.Resume.ResumeDTO;
+import com.rahul.job_tracker.Resume.ResumeDTOs.ResumeDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -24,34 +24,54 @@ public class ResumeRestController {
   }
 
   @PostMapping("/v1/create-resume")
-  public ResponseEntity<Resume> createResume(
+  public ResponseEntity<?> createResume(
     @RequestParam("file") MultipartFile file
   ) {
     try {
-      Resume savedResume = resumeServices.saveResume(file);
-      return ResponseEntity.status(HttpStatus.CREATED).body(savedResume);
+      return ResponseEntity.status(HttpStatus.CREATED).body(resumeServices.saveResume(file));
     } catch (RuntimeException e) {
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
   }
 
   @GetMapping("/v1/user-resume-count")
-  public int countUsersResume() {
-    return resumeServices.countUserResumes();
+  public ResponseEntity<?> countUsersResume() {
+    try {
+      return ResponseEntity.status(HttpStatus.OK).body(resumeServices.countUserResumes());
+      
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
   }
 
   @GetMapping("/v1/retrieve-user-resumes")
-  public List<ResumeDTO> retrieveUserResume() {
-    return resumeServices.retrieveUserResumes();
+  public ResponseEntity<?> retrieveUserResume() {
+    try {
+      return ResponseEntity.status(HttpStatus.OK).body(resumeServices.retrieveUserResumes());
+      
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
   }
 
   @DeleteMapping("/v1/delete-user-resume")
   public ResponseEntity<String> deleteUserResume(UUID resumeId) {
-    return resumeServices.deleteUserResume(resumeId);
+    try {
+      resumeServices.deleteUserResume(resumeId);
+      return ResponseEntity.status(HttpStatus.OK).body("Resume Deleted Successfully with ID: " + resumeId);
+      
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
   }
 
   @GetMapping("/v1/download-user-resume")
-  public ResponseEntity<byte[]> downloadUserResume(@RequestParam UUID resumeId){
-    return resumeServices.downloadUserResume(resumeId);
+  public ResponseEntity<?> downloadUserResume(@RequestParam UUID resumeId){
+    try {
+      return ResponseEntity.status(HttpStatus.OK).body(resumeServices.downloadUserResume(resumeId));
+      
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
   }
 }
