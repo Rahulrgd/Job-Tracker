@@ -85,12 +85,12 @@ public class JobPostRestController {
 
   // ===============================Retrieve User's Job Posts========================================
   @GetMapping("/v1/retrieve-user-job-posts")
-  public ResponseEntity<?> retrieveUserJobPosts() {
+  public ResponseEntity<?> retrieveUserJobPosts(@RequestParam int pageNumber) {
     // return jobPostServices.retrieveUserJobPosts();
     try {
       return ResponseEntity
         .status(HttpStatus.OK)
-        .body(jobPostServices.retrieveUserJobPosts());
+        .body(jobPostServices.retrieveUserJobPosts(pageNumber));
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }

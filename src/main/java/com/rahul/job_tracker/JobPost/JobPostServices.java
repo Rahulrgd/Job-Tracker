@@ -22,7 +22,7 @@ public interface JobPostServices {
 
   public String deleteUsersJobPost(UUID jobPostId);
 
-  public List<JobPostDTO> retrieveUserJobPosts();
+  public List<JobPostDTO> retrieveUserJobPosts(int pageNumber);
 
   public Integer countUserJobPosts();
 

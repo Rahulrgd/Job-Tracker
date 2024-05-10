@@ -6,8 +6,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
-import org.springdoc.core.converters.models.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
 public interface JobPostRepository extends JpaRepository<JobPost, UUID> {
   String sortBy = "jobDate";
 
-  public List<JobPost> findByUser(User user, Sort sort);
+  public Page<JobPost> findByUser(User user, Pageable page);
 
   public int countByUser(User user);
 
