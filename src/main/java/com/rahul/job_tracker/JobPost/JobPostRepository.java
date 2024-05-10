@@ -5,6 +5,8 @@ import com.rahul.job_tracker.User.User;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
+
+import org.springdoc.core.converters.models.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

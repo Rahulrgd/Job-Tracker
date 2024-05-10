@@ -78,18 +78,4 @@ public class JobPost {
   public void setResumeName() {
     this.resumeName = resume.getResumeName();
   }
-
-  // public JobPostDTO toDTO() {
-  //   JobPostDTO dto = new JobPostDTO();
-  //   dto.setJobPostId(this.id);
-  //   dto.setJobTitle(this.jobTitle);
-  //   dto.setCompanyName(this.companyName);
-  //   dto.setJobDescription(this.jobDescription);
-  //   dto.setJobDate(this.jobDate);
-  //   dto.setJobLink(this.jobLink);
-  //   dto.setUsername(user.getFullName());
-  //   dto.setClone(this.clone);
-  //   dto.setJobStatus(this.status);
-  //   return dto;
-  // }
 }

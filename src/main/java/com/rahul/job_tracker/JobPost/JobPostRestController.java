@@ -25,8 +25,8 @@ public class JobPostRestController {
 
   // =============================Retrieve All Job Posts==========================================
   @GetMapping("/v1/dashboard/all-jobs")
-  public List<JobPostDTO> allJobPosts() {
-    return jobPostServices.allJobPosts();
+  public List<JobPostDTO> allJobPosts(@RequestParam int pageNumber) {
+    return jobPostServices.allJobPosts(pageNumber);
   }
 
   // =============================Add User's Job Post==========================================

@@ -5,6 +5,8 @@ import com.rahul.job_tracker.User.User;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
+
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +14,7 @@ import org.springframework.stereotype.Service;
 public interface JobPostServices {
   public User getUser();
 
-  public List<JobPostDTO> allJobPosts();
+  public List<JobPostDTO> allJobPosts(int pageNumber);
 
   public String createJobPosts(JobPost jobPost);
 

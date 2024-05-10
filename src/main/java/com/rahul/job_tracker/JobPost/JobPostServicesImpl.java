@@ -6,25 +6,20 @@ import com.rahul.job_tracker.Resume.ResumeRepository;
 import com.rahul.job_tracker.User.User;
 import com.rahul.job_tracker.User.UserDTO;
 import com.rahul.job_tracker.User.UserMapper;
-import com.rahul.job_tracker.User.UserRepository;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 @Slf4j
@@ -32,9 +27,6 @@ public class JobPostServicesImpl implements JobPostServices {
 
   @Autowired
   private JobPostRepository jobPostRepository;
-
-  @Autowired
-  private UserRepository userRepository;
 
   @Autowired
   private ResumeRepository resumeRepository;
@@ -49,14 +41,30 @@ public class JobPostServicesImpl implements JobPostServices {
 
   // ==========================Retrieve All JobPosts===========================================
 
-  public List<JobPostDTO> allJobPosts() {
+  public List<JobPostDTO> allJobPosts(int pageNumber) {
     Sort sort = Sort.by("jobDate").descending();
-    return jobPostRepository
-      .findAll(sort)
-      .stream()
-      .map(jobpost -> JobPostMapper.INSTANCE.toDTO(jobpost))
-      .filter(jobpost -> jobpost.getClone() == false)
-      .collect(Collectors.toList());
+    Pageable pageable = PageRequest.of(0, 50, sort);
+    Page<JobPost> page = jobPostRepository.findAll(pageable);
+    
+    List<JobPostDTO> jobPosts = page
+        .stream()
+        .map(jobPost -> JobPostMapper.INSTANCE.toDTO(jobPost))
+        .filter(jobPost -> !jobPost.getClone())
+        .collect(Collectors.toList());
+    
+    if (jobPosts.isEmpty()) {
+        return Collections.emptyList();
+    } else if (jobPosts.size() < 50 && page.hasNext()) {
+        Pageable remainingPageable = PageRequest.of(1, 50 - jobPosts.size(), sort);
+        List<JobPostDTO> remainingJobPosts = jobPostRepository.findAll(remainingPageable)
+            .stream()
+            .map(jobPost -> JobPostMapper.INSTANCE.toDTO(jobPost))
+            .filter(jobPost -> !jobPost.getClone())
+            .collect(Collectors.toList());
+        jobPosts.addAll(remainingJobPosts);
+    }
+    
+    return jobPosts;
   }
 
   // =============================Create Job Post=====================================
@@ -100,6 +108,7 @@ public class JobPostServicesImpl implements JobPostServices {
   // =============================Retrieve User's Job Posts=================================
   public List<JobPostDTO> retrieveUserJobPosts() {
     Sort sort = Sort.by("jobDate").descending();
+    Pageable page = PageRequest.of(1,50, sort);
     User user = getUser();
     return jobPostRepository
       .findByUser(user, sort)
@@ -258,17 +267,13 @@ public class JobPostServicesImpl implements JobPostServices {
   }
 
   // ===================================Retrive User Job Posts Containting String======================================================
-  public List<JobPostDTO> retriveUserJobPostsContaingString(
-    String string
-  ) {
-    return 
-        jobPostRepository
-          .findUserJobPostContaingString(getUser(), string)
-          .stream()
-          .map(jobpost -> JobPostMapper.INSTANCE.toDTO(jobpost))
-          .filter(jobpost -> jobpost.getClone() != true)
-          .collect(Collectors.toList())
-      ;
+  public List<JobPostDTO> retriveUserJobPostsContaingString(String string) {
+    return jobPostRepository
+      .findUserJobPostContaingString(getUser(), string)
+      .stream()
+      .map(jobpost -> JobPostMapper.INSTANCE.toDTO(jobpost))
+      .filter(jobpost -> jobpost.getClone() != true)
+      .collect(Collectors.toList());
   }
 
   // ===================================Retrive Job Counts Per Day===============================
