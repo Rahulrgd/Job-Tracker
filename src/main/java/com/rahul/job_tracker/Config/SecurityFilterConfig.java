@@ -64,7 +64,7 @@ public class SecurityFilterConfig {
       )
       .authorizeHttpRequests(auth ->
         auth
-          .requestMatchers("/**", "/sign-up/", "/authenticate", "/v1/dashboard/**")
+          .requestMatchers("/", "/sign-up/", "/authenticate", "/v1/dashboard/**")
           .permitAll()
           .anyRequest()
           .authenticated()

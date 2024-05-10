@@ -61,7 +61,7 @@ public class JobPostServicesImpl implements JobPostServices {
 
   // =============================Create Job Post=====================================
 
-  public ResponseEntity<String> createJobPosts(JobPost jobPost) {
+  public String createJobPosts(JobPost jobPost) {
     User user = getUser();
     jobPost.setUser(user);
     jobPost.setClone(false);
@@ -69,24 +69,22 @@ public class JobPostServicesImpl implements JobPostServices {
       jobPost.setJobDate(LocalDate.now());
     }
     jobPostRepository.save(jobPost);
-    return ResponseEntity
-      .status(HttpStatus.CREATED)
-      .body("Job post created Successfully");
+    return "Job post created Successfully";
   }
 
   // =============================Set Resume to Job Post======================================
-  public ResponseEntity<JobPostDTO> setResume(JobPost jobPost, UUID resumeId) {
+  public JobPostDTO setResume(JobPost jobPost, UUID resumeId) {
     Optional<Resume> optionalResume = resumeRepository.findById(resumeId);
     Resume resume = optionalResume.orElseThrow(() ->
       new IllegalArgumentException("Resume Does Not Exist!!")
     );
     jobPost.setResume(resume);
     jobPostRepository.save(jobPost);
-    return ResponseEntity.status(HttpStatus.OK).body(JobPostMapper.INSTANCE.toDTO(jobPost));
+    return JobPostMapper.INSTANCE.toDTO(jobPost);
   }
 
   // =================================Delete User's Job Post======================================
-  public ResponseEntity<String> deleteUsersJobPost(UUID jobPostId) {
+  public String deleteUsersJobPost(UUID jobPostId) {
     Optional<JobPost> optionalJobPost = jobPostRepository.findById(jobPostId);
     JobPost jobPost = optionalJobPost.orElseThrow(() ->
       new IllegalArgumentException(
@@ -96,32 +94,24 @@ public class JobPostServicesImpl implements JobPostServices {
     User user = getUser();
     User jobPostUser = jobPost.getUser();
     jobPostRepository.deleteById(jobPostId);
-    return ResponseEntity
-      .status(HttpStatus.OK)
-      .body("Job post deleted successfully.");
+    return "Job post deleted successfully.";
   }
 
   // =============================Retrieve User's Job Posts=================================
-  public ResponseEntity<List<JobPostDTO>> retrieveUserJobPosts() {
+  public List<JobPostDTO> retrieveUserJobPosts() {
     Sort sort = Sort.by("jobDate").descending();
     User user = getUser();
-    return ResponseEntity
-      .status(HttpStatus.OK)
-      .body(
-        jobPostRepository
-          .findByUser(user, sort)
-          .stream()
-          .map(jobpost -> JobPostMapper.INSTANCE.toDTO(jobpost))
-          .collect(Collectors.toList())
-      );
+    return jobPostRepository
+      .findByUser(user, sort)
+      .stream()
+      .map(jobpost -> JobPostMapper.INSTANCE.toDTO(jobpost))
+      .collect(Collectors.toList());
   }
 
   // ==============================Count User Job Posts=====================================
-  public ResponseEntity<Integer> countUserJobPosts() {
+  public Integer countUserJobPosts() {
     User user = getUser();
-    return ResponseEntity
-      .status(HttpStatus.OK)
-      .body(jobPostRepository.countByUser(user));
+    return jobPostRepository.countByUser(user);
   }
 
   // =========================Retrieve User JobPost With ID===============================
@@ -134,7 +124,7 @@ public class JobPostServicesImpl implements JobPostServices {
   }
 
   // ============================Update Job Posts=============================
-  public ResponseEntity<String> updateJobPost(JobPost jobPost) {
+  public String updateJobPost(JobPost jobPost) {
     Optional<JobPost> optionalJobPost = jobPostRepository.findById(
       jobPost.getId()
     );
@@ -171,17 +161,13 @@ public class JobPostServicesImpl implements JobPostServices {
     try {
       jobPostRepository.save(existingJobPost);
     } catch (Exception e) {
-      return ResponseEntity
-        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .body("Updation failed due to: " + e.getMessage());
+      return "Updation failed due to: " + e.getMessage();
     }
-    return ResponseEntity
-      .status(HttpStatus.OK)
-      .body("Job post updated successfully;");
+    return "Job post updated successfully";
   }
 
   // =============================Clone Job Post==================================
-  public ResponseEntity<String> addJobWithJobId(UUID jobPostid) {
+  public String addJobWithJobId(UUID jobPostid) {
     Optional<JobPost> optionalJobPost = jobPostRepository.findById(jobPostid);
     JobPost oldJobPost = optionalJobPost.orElseThrow(() ->
       new IllegalArgumentException("Job does not exist with id: " + jobPostid)
@@ -197,9 +183,7 @@ public class JobPostServicesImpl implements JobPostServices {
     newJobPost.setStatus(status);
     newJobPost.setJobDate(LocalDate.now());
     jobPostRepository.save(newJobPost);
-    return ResponseEntity
-      .status(HttpStatus.CREATED)
-      .body("Job post added successfully to your account.");
+    return "Job post added successfully to your account.";
   }
 
   // =======================Check Job Post Exists in User Account or Not========================
@@ -215,7 +199,7 @@ public class JobPostServicesImpl implements JobPostServices {
   }
 
   // ==========================Top 3 Performer's of the day with their Job Counts ===================
-  public ResponseEntity<List<TopPerformerDTO>> retrieveTopPerformersOfTheDay() {
+  public List<TopPerformerDTO> retrieveTopPerformersOfTheDay() {
     LocalDate date = LocalDate.now();
     List<Object[]> results = jobPostRepository.topPerformersOfTheDay(date);
 
@@ -237,11 +221,11 @@ public class JobPostServicesImpl implements JobPostServices {
       .collect(Collectors.toList());
     log.info("Value of List Top Performers: " + topPerformerDTOs);
 
-    return ResponseEntity.status(HttpStatus.OK).body(topPerformerDTOs);
+    return topPerformerDTOs;
   }
 
   // ==========================Retrive Jobposts with Filters Applied==================================
-  public ResponseEntity<List<JobPostDTO>> retrieveJobsByFilters(
+  public List<JobPostDTO> retrieveJobsByFilters(
     String jobTitle,
     String companyName,
     String jobDescription,
@@ -260,45 +244,35 @@ public class JobPostServicesImpl implements JobPostServices {
       .map(jobPost -> JobPostMapper.INSTANCE.toDTO(jobPost))
       .collect(Collectors.toList());
 
-    return ResponseEntity.status(HttpStatus.OK).body(filteredJobPostDTO);
+    return filteredJobPostDTO;
   }
 
   // ==================================Retrive Job Posts Containting String==========================================
-  public ResponseEntity<List<JobPostDTO>> retriveJobPostsContaingString(
-    String string
-  ) {
-    return ResponseEntity
-      .status(HttpStatus.OK)
-      .body(
-        jobPostRepository
-          .findJobPostContaingString(string)
-          .stream()
-          .map(jobpost -> JobPostMapper.INSTANCE.toDTO(jobpost))
-          .filter(jobpost -> jobpost.getClone() != true)
-          .collect(Collectors.toList())
-      );
+  public List<JobPostDTO> retriveJobPostsContaingString(String string) {
+    return jobPostRepository
+      .findJobPostContaingString(string)
+      .stream()
+      .map(jobpost -> JobPostMapper.INSTANCE.toDTO(jobpost))
+      .filter(jobpost -> jobpost.getClone() != true)
+      .collect(Collectors.toList());
   }
 
   // ===================================Retrive User Job Posts Containting String======================================================
-  public ResponseEntity<List<JobPostDTO>> retriveUserJobPostsContaingString(
+  public List<JobPostDTO> retriveUserJobPostsContaingString(
     String string
   ) {
-    return ResponseEntity
-      .status(HttpStatus.OK)
-      .body(
+    return 
         jobPostRepository
           .findUserJobPostContaingString(getUser(), string)
           .stream()
           .map(jobpost -> JobPostMapper.INSTANCE.toDTO(jobpost))
           .filter(jobpost -> jobpost.getClone() != true)
           .collect(Collectors.toList())
-      );
+      ;
   }
 
   // ===================================Retrive Job Counts Per Day===============================
-  public ResponseEntity<List<Object[]>> retrieveJobCountsPerDay() {
-    return ResponseEntity
-      .status(HttpStatus.OK)
-      .body(jobPostRepository.findJobCountPerDay());
+  public List<Object[]> retrieveJobCountsPerDay() {
+    return jobPostRepository.findJobCountPerDay();
   }
 }

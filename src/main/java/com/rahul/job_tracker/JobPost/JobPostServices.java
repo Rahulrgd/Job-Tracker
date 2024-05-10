@@ -14,29 +14,29 @@ public interface JobPostServices {
 
   public List<JobPostDTO> allJobPosts();
 
-  public ResponseEntity<String> createJobPosts(JobPost jobPost);
+  public String createJobPosts(JobPost jobPost);
 
-  public ResponseEntity<JobPostDTO> setResume(JobPost jobPost, UUID resumeId);
+  public JobPostDTO setResume(JobPost jobPost, UUID resumeId);
 
-  public ResponseEntity<String> deleteUsersJobPost(UUID jobPostId);
+  public String deleteUsersJobPost(UUID jobPostId);
 
-  public ResponseEntity<List<JobPostDTO>> retrieveUserJobPosts();
+  public List<JobPostDTO> retrieveUserJobPosts();
 
-  public ResponseEntity<Integer> countUserJobPosts();
+  public Integer countUserJobPosts();
 
   public JobPost retrieveUserJobPostWithId(UUID jobPostId);
 
-  public ResponseEntity<String> updateJobPost(JobPost jobPost);
+  public String updateJobPost(JobPost jobPost);
 
-  public ResponseEntity<String> addJobWithJobId(UUID jobPostid);
+  public String addJobWithJobId(UUID jobPostid);
 
   public boolean checkJobPostInUserJobList(UUID jobPostId);
 
   public List<Object[]> retrieveUsersPerDayJobPosts();
 
-  public ResponseEntity<List<TopPerformerDTO>> retrieveTopPerformersOfTheDay();
+  public List<TopPerformerDTO> retrieveTopPerformersOfTheDay();
 
-  public ResponseEntity<List<JobPostDTO>> retrieveJobsByFilters(
+  public List<JobPostDTO> retrieveJobsByFilters(
     String jobTitle,
     String companyName,
     String jobDescription,
@@ -44,13 +44,13 @@ public interface JobPostServices {
     JobStatusEnum status
   );
 
-  public ResponseEntity<List<JobPostDTO>> retriveJobPostsContaingString(
+  public List<JobPostDTO> retriveJobPostsContaingString(
     String string
   );
 
-  public ResponseEntity<List<JobPostDTO>> retriveUserJobPostsContaingString(
+  public List<JobPostDTO> retriveUserJobPostsContaingString(
     String string
   );
 
-  public ResponseEntity<List<Object[]>> retrieveJobCountsPerDay();
+  public List<Object[]> retrieveJobCountsPerDay();
 }
