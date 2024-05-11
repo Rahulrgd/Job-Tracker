@@ -54,5 +54,5 @@ public interface JobPostServices {
     String string, int pageNumber
   );
 
-  public List<Object[]> retrieveJobCountsPerDay();
+  public List<Object[]> retrieveJobCountsPerDay(int pageNumber);
 }

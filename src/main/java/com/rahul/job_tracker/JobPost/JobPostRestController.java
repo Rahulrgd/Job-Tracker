@@ -209,7 +209,7 @@ public class JobPostRestController {
   // ======================================Retrieve User Job Posts Containg String===================================
   @GetMapping("/v1/search-user-jobposts-containing-string")
   public ResponseEntity<?> retrieveUserJobPostsContaingString(
-    @RequestParam String string, int pageNumber
+    @RequestParam String string, @RequestParam int pageNumber
   ) {
     try {
       return ResponseEntity
@@ -222,11 +222,11 @@ public class JobPostRestController {
 
   // =======================================Retrive Job Post Count Per Day================================
   @GetMapping("/v1/dashboard/retrive-jobpost-count-per-day")
-  public ResponseEntity<?> retrieveJobCountsPerDay() {
+  public ResponseEntity<?> retrieveJobCountsPerDay(@RequestParam int pageNumber) {
     try {
       return ResponseEntity
         .status(HttpStatus.OK)
-        .body(jobPostServices.retrieveJobCountsPerDay());
+        .body(jobPostServices.retrieveJobCountsPerDay(pageNumber));
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }

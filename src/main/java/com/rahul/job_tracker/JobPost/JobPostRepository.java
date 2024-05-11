@@ -86,5 +86,5 @@ public interface JobPostRepository extends JpaRepository<JobPost, UUID> {
   @Query(
     "SELECT count(jp), jp.jobDate FROM JobPost jp WHERE jp.clone = false GROUP BY jp.jobDate ORDER BY jp.jobDate DESC"
   )
-  public List<Object[]> findJobCountPerDay();
+  public Page<Object[]> findJobCountPerDay(Pageable pageable);
 }
