@@ -10,7 +10,7 @@ public interface UserServices {
 
   public UserDTO createUser(User user);
 
-  public List<UserDTO> getAllUsers();
+  public List<UserDTO> getAllUsers(int pageNumber);
 
   public UserDTO getUserDetails();
 
