@@ -7,6 +7,7 @@ import com.rahul.job_tracker.User.User;
 import com.rahul.job_tracker.User.UserDTO;
 import com.rahul.job_tracker.User.UserMapper;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -223,8 +224,31 @@ public class JobPostServicesImpl implements JobPostServices {
   }
 
   // ==========================Retrieve User's Job Posts per Day==================================
-  public List<Object[]> retrieveUsersPerDayJobPosts() {
-    return jobPostRepository.countUsersPostPerDay(getUser());
+  public List<Object[]> retrieveUsersPerDayJobPosts(int pageNumber) {
+    int pageSize=7;
+    Sort sort = Sort.by("jobDate").descending();
+    Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
+    Page<Object[]> page = jobPostRepository.countUsersPostPerDay(
+      getUser(),
+      pageable
+    );
+    List<Object[]> jobPostPerDay = new ArrayList<>(page.getContent());
+
+    if (jobPostPerDay.isEmpty()) {
+      return new ArrayList<>();
+    } else {
+      if (page.hasNext()) {
+        return jobPostPerDay; 
+      } else {
+        Page<Object[]> nextPage = jobPostRepository.countUsersPostPerDay(
+          getUser(),
+          pageable
+        );
+        jobPostPerDay.addAll(nextPage.getContent());
+      }
+    }
+
+    return jobPostPerDay;
   }
 
   // ==========================Top 3 Performer's of the day with their Job Counts ===================

@@ -34,7 +34,7 @@ public interface JobPostServices {
 
   public boolean checkJobPostInUserJobList(UUID jobPostId);
 
-  public List<Object[]> retrieveUsersPerDayJobPosts();
+  public List<Object[]> retrieveUsersPerDayJobPosts(int pageNumber);
 
   public List<TopPerformerDTO> retrieveTopPerformersOfTheDay();
 

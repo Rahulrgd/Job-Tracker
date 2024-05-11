@@ -25,8 +25,9 @@ public interface JobPostRepository extends JpaRepository<JobPost, UUID> {
 
   @Query(
     "SELECT COUNT(e), e.jobDate FROM JobPost e WHERE e.user = :user GROUP BY e.jobDate ORDER BY e.jobDate DESC"
+    // "SELECT COUNT(e), e.jobDate FROM JobPost e WHERE e.user = :user GROUP BY e.jobDate"
   )
-  public List<Object[]> countUsersPostPerDay(@Param("user") User user);
+  public Page<Object[]> countUsersPostPerDay(@Param("user") User user, Pageable pageable);
 
   @Query(
     "SELECT e.user, COUNT(e) FROM JobPost e WHERE e.jobDate=:date GROUP BY e.user ORDER BY COUNT(e) DESC"

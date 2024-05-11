@@ -147,8 +147,8 @@ public class JobPostRestController {
 
   // ==================================Retrieve User's Job Posts Count Of Each Day=====================================
   @GetMapping("/v1/retrive-users-per-day-jobposts")
-  public List<Object[]> retrieveUsersPerDayJobPosts() {
-    return jobPostServices.retrieveUsersPerDayJobPosts();
+  public List<Object[]> retrieveUsersPerDayJobPosts(@RequestParam int pageNumber) {
+    return jobPostServices.retrieveUsersPerDayJobPosts(pageNumber);
   }
 
   // ====================================Top 3 Performer's of the day with their Job Counts ===========================
