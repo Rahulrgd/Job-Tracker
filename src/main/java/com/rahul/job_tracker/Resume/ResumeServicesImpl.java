@@ -3,7 +3,6 @@ package com.rahul.job_tracker.Resume;
 import com.rahul.job_tracker.Resume.ResumeDTOs.ResumeDTO;
 import com.rahul.job_tracker.User.User;
 import com.rahul.job_tracker.User.UserRepository;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-public class ResumeServicesImpl implements ResumeServices{
+public class ResumeServicesImpl implements ResumeServices {
 
   @Autowired
   private ResumeRepository resumeRepository;
@@ -33,8 +32,12 @@ public class ResumeServicesImpl implements ResumeServices{
       .getPrincipal();
   }
 
-  public List<Resume> getAllResume() {
-    return resumeRepository.findAll();
+  public List<ResumeDTO> getAllResume() {
+    return resumeRepository
+      .findAll()
+      .stream()
+      .map(resume -> ResumeMapper.INSTANCE.toDTO(resume))
+      .collect(Collectors.toList());
   }
 
   public String saveResume(MultipartFile file) {
@@ -51,7 +54,7 @@ public class ResumeServicesImpl implements ResumeServices{
     }
     resume.setUser(getUser());
     resumeRepository.save(resume);
-    return "Resume saved successfully."; 
+    return "Resume saved successfully.";
   }
 
   public int countUserResumes() {

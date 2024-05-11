@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.rahul.job_tracker.Resume.ResumeDTOs.ResumeDTO;
+
 @RestController
 public class ResumeRestController {
 
@@ -19,7 +21,7 @@ public class ResumeRestController {
   private ResumeServices resumeServices;
 
   @GetMapping("/v1/all-resume")
-  public List<Resume> getAllResume() {
+  public List<ResumeDTO> getAllResume() {
     return resumeServices.getAllResume();
   }
 

@@ -13,7 +13,7 @@ public interface ResumeServices {
 
   User getUser();
 
-  public List<Resume> getAllResume();
+  public List<ResumeDTO> getAllResume();
 
   public String saveResume(MultipartFile file);
 
