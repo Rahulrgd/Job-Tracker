@@ -191,7 +191,7 @@ public class JobPostRestController {
     }
   }
 
-  // ========================================Dashboard Search Functionality=============================================
+  // ========================================Retrive JobPosts With String=============================================
   @GetMapping("/v1/dashboard/search-jobposts-containing-strings")
   public ResponseEntity<?> retriveJobPostsWithString(
     @RequestParam String string,
@@ -206,15 +206,15 @@ public class JobPostRestController {
     }
   }
 
-  // ======================================Search Box For User Component===================================
+  // ======================================Retrieve User Job Posts Containg String===================================
   @GetMapping("/v1/search-user-jobposts-containing-string")
   public ResponseEntity<?> retrieveUserJobPostsContaingString(
-    @RequestParam String string
+    @RequestParam String string, int pageNumber
   ) {
     try {
       return ResponseEntity
         .status(HttpStatus.OK)
-        .body(jobPostServices.retriveUserJobPostsContaingString(string));
+        .body(jobPostServices.retriveUserJobPostsContaingString(string, pageNumber));
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }

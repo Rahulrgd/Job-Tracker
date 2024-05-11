@@ -76,9 +76,10 @@ public interface JobPostRepository extends JpaRepository<JobPost, UUID> {
     "jp.status LIKE %:string% OR " +
     "jp.jobDescription LIKE %:string%)"
   )
-  List<JobPost> findUserJobPostContaingString(
+  Page<JobPost> findUserJobPostContaingString(
     User user,
-    @Param("string") String string
+    @Param("string") String string,
+    Pageable pageable
   );
 
   // ===============================Retrive Job Posts Per Day====================================

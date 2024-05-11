@@ -324,13 +324,38 @@ public class JobPostServicesImpl implements JobPostServices {
   }
 
   // ===================================Retrive User Job Posts Containting String======================================================
-  public List<JobPostDTO> retriveUserJobPostsContaingString(String string) {
-    return jobPostRepository
-      .findUserJobPostContaingString(getUser(), string)
-      .stream()
+  public List<JobPostDTO> retriveUserJobPostsContaingString(String string, int pageNumber) {
+
+    Sort sort = Sort.by("jobDate").descending();
+    int pageSize = 50;
+    Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
+    Page<JobPost> page = jobPostRepository.findUserJobPostContaingString(getUser(), string, pageable);
+    List<JobPostDTO> jobPostDTOs = page.getContent().stream()
       .map(jobpost -> JobPostMapper.INSTANCE.toDTO(jobpost))
       .filter(jobpost -> jobpost.getClone() != true)
       .collect(Collectors.toList());
+
+    if (jobPostDTOs.isEmpty()) {
+      return new ArrayList<>();
+    } else if(page.hasNext()){
+      return jobPostDTOs;
+    }else{
+      List<JobPostDTO> newJobPostDTOs = page.getContent().stream()
+      .map(jobpost -> JobPostMapper.INSTANCE.toDTO(jobpost))
+      .filter(jobpost -> jobpost.getClone() != true)
+      .collect(Collectors.toList());
+      jobPostDTOs.addAll(newJobPostDTOs);
+      return jobPostDTOs;
+    }
+
+
+
+    // return jobPostRepository
+    //   .findUserJobPostContaingString(getUser(), string)
+    //   .stream()
+    //   .map(jobpost -> JobPostMapper.INSTANCE.toDTO(jobpost))
+    //   .filter(jobpost -> jobpost.getClone() != true)
+    //   .collect(Collectors.toList());
   }
 
   // ===================================Retrive Job Counts Per Day===============================
