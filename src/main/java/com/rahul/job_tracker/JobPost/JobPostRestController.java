@@ -194,12 +194,13 @@ public class JobPostRestController {
   // ========================================Dashboard Search Functionality=============================================
   @GetMapping("/v1/dashboard/search-jobposts-containing-strings")
   public ResponseEntity<?> retriveJobPostsWithString(
-    @RequestParam String string
+    @RequestParam String string,
+    @RequestParam int pageNumber
   ) {
     try {
       return ResponseEntity
         .status(HttpStatus.OK)
-        .body(jobPostServices.retriveJobPostsContaingString(string));
+        .body(jobPostServices.retriveJobPostsContaingString(string, pageNumber));
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }

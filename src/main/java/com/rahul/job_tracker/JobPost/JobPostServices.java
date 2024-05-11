@@ -47,7 +47,7 @@ public interface JobPostServices {
   );
 
   public List<JobPostDTO> retriveJobPostsContaingString(
-    String string
+    String string, int pageNumber
   );
 
   public List<JobPostDTO> retriveUserJobPostsContaingString(

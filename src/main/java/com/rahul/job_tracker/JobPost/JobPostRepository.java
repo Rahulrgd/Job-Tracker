@@ -62,8 +62,9 @@ public interface JobPostRepository extends JpaRepository<JobPost, UUID> {
     "u.fullName LIKE %:string% " +
     "ORDER BY jp.jobDate "
   )
-  public List<JobPost> findJobPostContaingString(
-    @Param("string") String string
+  public Page<JobPost> findJobPostContaingString(
+    @Param("string") String string,
+    Pageable pageable
   );
 
   // ============================Retrive Users Job Posts Containg String======================================

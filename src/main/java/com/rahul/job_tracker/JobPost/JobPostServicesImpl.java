@@ -299,13 +299,28 @@ public class JobPostServicesImpl implements JobPostServices {
   }
 
   // ==================================Retrive Job Posts Containting String==========================================
-  public List<JobPostDTO> retriveJobPostsContaingString(String string) {
-    return jobPostRepository
-      .findJobPostContaingString(string)
-      .stream()
+  public List<JobPostDTO> retriveJobPostsContaingString(String string, int pageNumber) {
+    Sort sort = Sort.by("jobDate").descending();
+    int pageSize = 50;
+    Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
+    Page<JobPost> page = jobPostRepository.findJobPostContaingString(string, pageable);
+    List<JobPostDTO> jobPostDTOs = page.getContent().stream()
       .map(jobpost -> JobPostMapper.INSTANCE.toDTO(jobpost))
       .filter(jobpost -> jobpost.getClone() != true)
       .collect(Collectors.toList());
+
+    if (jobPostDTOs.isEmpty()) {
+      return new ArrayList<>();
+    } else if(page.hasNext()){
+      return jobPostDTOs;
+    }else{
+      List<JobPostDTO> newJobPostDTOs = page.getContent().stream()
+      .map(jobpost -> JobPostMapper.INSTANCE.toDTO(jobpost))
+      .filter(jobpost -> jobpost.getClone() != true)
+      .collect(Collectors.toList());
+      jobPostDTOs.addAll(newJobPostDTOs);
+      return jobPostDTOs;
+    }
   }
 
   // ===================================Retrive User Job Posts Containting String======================================================
