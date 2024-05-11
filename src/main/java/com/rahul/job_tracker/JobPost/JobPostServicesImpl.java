@@ -44,7 +44,7 @@ public class JobPostServicesImpl implements JobPostServices {
 
   public List<JobPostDTO> allJobPosts(int pageNumber) {
     Sort sort = Sort.by("jobDate").descending();
-    Pageable pageable = PageRequest.of(0, 50, sort);
+    Pageable pageable = PageRequest.of(pageNumber, 50, sort);
     Page<JobPost> page = jobPostRepository.findAll(pageable);
     List<JobPostDTO> jobPosts = page
       .stream()
@@ -113,29 +113,27 @@ public class JobPostServicesImpl implements JobPostServices {
   // =============================Retrieve User's Job Posts=================================
   public List<JobPostDTO> retrieveUserJobPosts(int pageNumber) {
     Sort sort = Sort.by("jobDate").descending();
-    Pageable pageable = PageRequest.of(0, 50, sort);
+    Pageable pageable = PageRequest.of(pageNumber, 50, sort);
     Page<JobPost> page = jobPostRepository.findByUser(getUser(), pageable);
+    List<JobPostDTO> jobPosts = page
+      .getContent()
+      .stream()
+      .map(JobPostMapper.INSTANCE::toDTO)
+      .collect(Collectors.toList());
 
-    if (page.isEmpty()) {
-      return Collections.emptyList();
-    } else {
-      List<JobPost> jobPosts = page.getContent();
-      // If there are more pages available and the current page is not empty
-      if (page.hasNext() && jobPosts.size() < 50) {
-        int remainingSize = 50 - jobPosts.size();
-        // Fetch additional job posts for the next page
-        pageable = PageRequest.of(pageNumber + 1, remainingSize, sort);
-        Page<JobPost> nextPage = jobPostRepository.findByUser(
-          getUser(),
-          pageable
-        );
-        jobPosts.addAll(nextPage.getContent());
+      if(jobPosts.isEmpty()){
+        return new ArrayList<>();
+      }else if(page.hasNext()){
+        return jobPosts;
+      }else{
+        List<JobPostDTO> newJobPosts = page
+      .getContent()
+      .stream()
+      .map(JobPostMapper.INSTANCE::toDTO)
+      .collect(Collectors.toList());
+      jobPosts.addAll(newJobPosts);
+      return jobPosts;
       }
-      return jobPosts
-        .stream()
-        .map(JobPostMapper.INSTANCE::toDTO)
-        .collect(Collectors.toList());
-    }
   }
 
   // ==============================Count User Job Posts=====================================
@@ -225,7 +223,7 @@ public class JobPostServicesImpl implements JobPostServices {
 
   // ==========================Retrieve User's Job Posts per Day==================================
   public List<Object[]> retrieveUsersPerDayJobPosts(int pageNumber) {
-    int pageSize=7;
+    int pageSize = 7;
     Sort sort = Sort.by("jobDate").descending();
     Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
     Page<Object[]> page = jobPostRepository.countUsersPostPerDay(
@@ -238,7 +236,7 @@ public class JobPostServicesImpl implements JobPostServices {
       return new ArrayList<>();
     } else {
       if (page.hasNext()) {
-        return jobPostPerDay; 
+        return jobPostPerDay;
       } else {
         Page<Object[]> nextPage = jobPostRepository.countUsersPostPerDay(
           getUser(),

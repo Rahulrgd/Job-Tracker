@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
 public interface JobPostRepository extends JpaRepository<JobPost, UUID> {
   String sortBy = "jobDate";
 
-  public Page<JobPost> findByUser(User user, Pageable page);
+  public Page<JobPost> findByUser(User user, Pageable pageable);
 
   public int countByUser(User user);
 
