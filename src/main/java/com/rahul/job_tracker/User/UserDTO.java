@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.rahul.job_tracker.Resume.ResumeDTOs.ResumeDTO;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,6 +17,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class UserDTO {
     // private UUID id; //Not Needed
     private String fullName;

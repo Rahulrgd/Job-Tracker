@@ -21,6 +21,6 @@ public interface UserMapper {
   @Mapping(target = "jobPosts", ignore = true)
   @Mapping(target = "password", ignore = true)
   @Mapping(target = "resumes", ignore = true)
-  @Mapping(target = "authorities", ignore = true)
+  // @Mapping(target = "authorities", ignore = true)
   User toEntity(UserDTO dto);
 }
