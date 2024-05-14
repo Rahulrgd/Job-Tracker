@@ -24,3 +24,38 @@ public class UserRepositoryTest {
     }
 }
 ```
+
++ Service Class Testing Example:
+```
+@ExtendWith(MockitoExtension.class)
+public class UserServicesTest {
+
+    @Mock
+    private UserRepository userRepository;
+
+    @InjectMocks
+    private UserServicesImpl userServices;
+
+    @Test
+    void testGetAllUsers() {
+        // Arrange
+        List<User> usersList = new ArrayList<>();
+        Sort sort = Sort.by("fullName");
+        Pageable pageable = PageRequest.of(0, 50, sort);
+        Page<User> usersPage2 = Mockito.mock(Page.class);
+        when(userRepository.findAll(pageable)).thenReturn(usersPage2);
+
+        // Act
+        List<UserDTO> actualList = userServices.getAllUsers(0);
+
+        // Assert
+        assertThat(actualList).isEqualTo(usersList);
+
+    }
+}
+```
+
++ Controller Class Testing Example:
+```
+
+```
