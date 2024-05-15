@@ -39,16 +39,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     // Bearer
     String requestHeader = request.getHeader("Authorization");
     log.info("Header :  {}", requestHeader);
-    String username = null;
+    String email = null;
     String token = null;
 
     if (requestHeader != null && requestHeader.startsWith("Bearer")) {
         //looking good
         token = requestHeader.substring(7);
         try {
-            username = this.jwtHelper.getUsernameFromToken(token);
+            email = this.jwtHelper.getEmailFromToken(token);
         } catch (IllegalArgumentException e) {
-            logger.info("Illegal Argument while fetching the username !!");
+            logger.info("Illegal Argument while fetching the email !!");
             e.printStackTrace();
         } catch (ExpiredJwtException e) {
             logger.info("Given jwt token is expired !!");
@@ -63,9 +63,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         logger.info("Invalid Header Value !! ");
     }
 
-    if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-        //fetch user detail from username
-        UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+    if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        //fetch user detail from email
+        UserDetails userDetails = this.userDetailsService.loadUserByUsername(email);
         Boolean validateToken = this.jwtHelper.validateToken(token, userDetails);
         if (validateToken) {
             //set the authentication

@@ -19,10 +19,11 @@ public class JwtHelper {
   public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60; // this is 5hr * 60min * 60 seconds
 
   private String secret =
-    "afafasfafafasfasfasfafacasdasfasxASFACASDFACASDFASFASFDAFASFASDAADSCSDFADCVSGCFVADXCcadwavfsfarvf";
+    // "afafasfafafasfasfasfafacasdasfasxASFACASDFACASDFASFASFDAFASFASDAADSCSDFADCVSGCFVADXCcadwavfsfarvf";
+    "gPrIycydv5eLlRQcwEbUsJ+vx2tAOYSfaLwJ0/+sC0Hb42B4A7Z/YkDr2qOe+Y12RodSvp8kCn8luVscejWS4plmvFap4fZrgzTDjEMOlZwwy7ABRucCzolQwSF6dohYR3j9PN4TkE772O15mRC7kN1LllbhraKgZVS6sW1rjqHXlrj2bDgbMoMtYhbaicwSabk1Dn+mC6gVZiWxg+m++3wthbIlZ3WlUbDzuDp0RNeOO0nA";
 
   //retrieve username from jwt token
-  public String getUsernameFromToken(String token) {
+  public String getEmailFromToken(String token) {
     return getClaimFromToken(token, Claims::getSubject);
   }
 
@@ -76,7 +77,7 @@ public class JwtHelper {
 
   //validate token
   public Boolean validateToken(String token, UserDetails userDetails) {
-    final String username = getUsernameFromToken(token);
+    final String username = getEmailFromToken(token);
     return (
       username.equals(userDetails.getUsername()) && !isTokenExpired(token)
     );
