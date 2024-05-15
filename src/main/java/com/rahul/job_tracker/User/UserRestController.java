@@ -18,8 +18,9 @@ public class UserRestController {
   @GetMapping("/all-users")
   public ResponseEntity<?> getAllUsers(@RequestParam int pageNumber) {
     try {
-      return ResponseEntity.status(HttpStatus.OK).body(userServices.getAllUsers(pageNumber));
-      
+      return ResponseEntity
+        .status(HttpStatus.OK)
+        .body(userServices.getAllUsers(pageNumber));
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
@@ -28,8 +29,9 @@ public class UserRestController {
   @PostMapping("/sign-up/")
   public ResponseEntity<?> createUser(@RequestBody User user) {
     try {
-      return ResponseEntity.status(HttpStatus.CREATED).body(userServices.createUser(user));
-      
+      return ResponseEntity
+        .status(HttpStatus.CREATED)
+        .body(userServices.createUser(user));
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
@@ -38,8 +40,9 @@ public class UserRestController {
   @GetMapping("/v1/user-detail")
   public ResponseEntity<?> getUserDetails() {
     try {
-      return ResponseEntity.status(HttpStatus.OK).body(userServices.getUserDetails());
-      
+      return ResponseEntity
+        .status(HttpStatus.OK)
+        .body(userServices.getUserDetails());
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
@@ -48,8 +51,9 @@ public class UserRestController {
   @GetMapping("/v1/dashboard/count-total-users")
   public ResponseEntity<?> countTotalUsers() {
     try {
-      return ResponseEntity.status(HttpStatus.OK).body(userServices.countTotalUsers());
-      
+      return ResponseEntity
+        .status(HttpStatus.OK)
+        .body(userServices.countTotalUsers());
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
+
 @RestController
 @AllArgsConstructor
 public class JwtAuthenticationController {
@@ -23,11 +25,11 @@ public class JwtAuthenticationController {
   private JwtHelper helper;
 
   @PostMapping("/authenticate")
-  public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest request) {
-    this.doAuthenticate(request.getUsername(), request.getPassword());
+  public ResponseEntity<JwtResponse> login(@RequestBody @Valid JwtRequest request) {
+    this.doAuthenticate(request.getEmail(), request.getPassword());
 
     UserDetails userDetails = userDetailsService.loadUserByUsername(
-      request.getUsername()
+      request.getEmail()
     );
     String token = this.helper.generateToken(userDetails);
 
