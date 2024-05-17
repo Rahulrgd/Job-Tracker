@@ -57,5 +57,30 @@ public class UserServicesTest {
 
 + Controller Class Testing Example:
 ```
+@AutoConfigureMockMvc(addFilters = false)
+@WebMvcTest(controllers = HomePage.class)
+@ExtendWith(MockitoExtension.class)
+public class HomePageTest {
 
+  @MockBean
+  private JwtHelper jwtHelper;
+
+  @MockBean
+  private UserDetailsService userDetailsService;
+
+  @Autowired
+  private MockMvc mockMvc;
+
+  @Test
+  @WithMockUser(roles = "user")
+  void testWelcome() throws Exception {
+    mockMvc
+      .perform(
+        MockMvcRequestBuilders
+          .get("/")
+          .with(SecurityMockMvcRequestPostProcessors.jwt())
+      )
+      .andExpect(MockMvcResultMatchers.status().isOk());
+  }
+}
 ```
