@@ -6,6 +6,8 @@ import com.rahul.job_tracker.Resume.ResumeRepository;
 import com.rahul.job_tracker.User.User;
 import com.rahul.job_tracker.User.UserDTO;
 import com.rahul.job_tracker.User.UserMapper;
+import com.rahul.job_tracker.User.UserServicesImpl;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,13 +34,16 @@ public class JobPostServicesImpl implements JobPostServices {
   @Autowired
   private ResumeRepository resumeRepository;
 
+  @Autowired
+  private UserServicesImpl userService;
+
   // ==================================Get User from Security Context Holder==================
-  public User getUser() {
-    return (User) SecurityContextHolder
-      .getContext()
-      .getAuthentication()
-      .getPrincipal();
-  }
+  // public User userService.getAuthenticatedUser() {
+  //   return (User) SecurityContextHolder
+  //     .getContext()
+  //     .getAuthentication()
+  //     .getPrincipal();
+  // }
 
   // ==========================Retrieve All JobPosts===========================================
 
@@ -75,7 +80,7 @@ public class JobPostServicesImpl implements JobPostServices {
   // =============================Create Job Post=====================================
 
   public String createJobPosts(JobPost jobPost) {
-    User user = getUser();
+    User user = userService.getAuthenticatedUser();
     jobPost.setUser(user);
     jobPost.setClone(false);
     if (jobPost.getJobDate() == null) {
@@ -104,7 +109,7 @@ public class JobPostServicesImpl implements JobPostServices {
         "JobPost does Not Exist with Id: " + jobPostId
       )
     );
-    User user = getUser();
+    User user = userService.getAuthenticatedUser();
     User jobPostUser = jobPost.getUser();
     jobPostRepository.deleteById(jobPostId);
     return "Job post deleted successfully.";
@@ -114,7 +119,7 @@ public class JobPostServicesImpl implements JobPostServices {
   public List<JobPostDTO> retrieveUserJobPosts(int pageNumber) {
     Sort sort = Sort.by("jobDate").descending();
     Pageable pageable = PageRequest.of(pageNumber, 50, sort);
-    Page<JobPost> page = jobPostRepository.findByUser(getUser(), pageable);
+    Page<JobPost> page = jobPostRepository.findByUser(userService.getAuthenticatedUser(), pageable);
     List<JobPostDTO> jobPosts = page
       .getContent()
       .stream()
@@ -138,7 +143,7 @@ public class JobPostServicesImpl implements JobPostServices {
 
   // ==============================Count User Job Posts=====================================
   public Integer countUserJobPosts() {
-    User user = getUser();
+    User user = userService.getAuthenticatedUser();
     return jobPostRepository.countByUser(user);
   }
 
@@ -202,7 +207,8 @@ public class JobPostServicesImpl implements JobPostServices {
     );
     JobStatusEnum status = JobStatusEnum.BOOKMARKED;
     JobPost newJobPost = new JobPost();
-    newJobPost.setUser(getUser());
+    // newJobPost.setUser(userService.getAuthenticatedUser());
+    newJobPost.setUser(userService.getAuthenticatedUser());
     newJobPost.setJobTitle(oldJobPost.getJobTitle());
     newJobPost.setCompanyName(oldJobPost.getCompanyName());
     newJobPost.setJobDescription(oldJobPost.getJobDescription());
@@ -215,11 +221,13 @@ public class JobPostServicesImpl implements JobPostServices {
   }
 
   // =======================Check Job Post Exists in User Account or Not========================
-  public boolean checkJobPostInUserJobList(UUID jobPostId) {
-    return getUser()
-      .getJobPosts()
-      .contains(jobPostRepository.findById(jobPostId));
-  }
+  // public boolean checkJobPostInUserJobList(UUID jobPostId) {
+    // Re-implement the logic ----------> Important
+    // return userService.getAuthenticatedUser()
+    //   .getJobPosts()
+    //   .contains(jobPostRepository.findById(jobPostId));
+
+  // }
 
   // ==========================Retrieve User's Job Posts per Day==================================
   public List<Object[]> retrieveUsersPerDayJobPosts(int pageNumber) {
@@ -227,7 +235,7 @@ public class JobPostServicesImpl implements JobPostServices {
     Sort sort = Sort.by("jobDate").descending();
     Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
     Page<Object[]> page = jobPostRepository.countUsersPostPerDay(
-      getUser(),
+      userService.getAuthenticatedUser(),
       pageable
     );
     List<Object[]> jobPostPerDay = new ArrayList<>(page.getContent());
@@ -239,7 +247,7 @@ public class JobPostServicesImpl implements JobPostServices {
         return jobPostPerDay;
       } else {
         Page<Object[]> nextPage = jobPostRepository.countUsersPostPerDay(
-          getUser(),
+          userService.getAuthenticatedUser(),
           pageable
         );
         jobPostPerDay.addAll(nextPage.getContent());
@@ -342,7 +350,7 @@ public class JobPostServicesImpl implements JobPostServices {
     int pageSize = 50;
     Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
     Page<JobPost> page = jobPostRepository.findUserJobPostContaingString(
-      getUser(),
+      userService.getAuthenticatedUser(),
       string,
       pageable
     );

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface JobPostServices {
-  public User getUser();
+  // public User getUser();
 
   public List<JobPostDTO> allJobPosts(int pageNumber);
 
@@ -32,7 +32,7 @@ public interface JobPostServices {
 
   public String addJobWithJobId(UUID jobPostid);
 
-  public boolean checkJobPostInUserJobList(UUID jobPostId);
+  // public boolean checkJobPostInUserJobList(UUID jobPostId);
 
   public List<Object[]> retrieveUsersPerDayJobPosts(int pageNumber);
 

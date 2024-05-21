@@ -14,14 +14,12 @@ public interface ResumeMapper {
     ResumeDTO toDTO(Resume resume);
 
     @Mapping(target = "resumeFile", ignore = true)
-    @Mapping(target = "resume", ignore = true)
     @Mapping(target = "user", ignore = true)
     Resume toEntity(ResumeDTO resumeDTO);
 
     ResumeFileDTO toFileDTO(Resume resume);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "resume", ignore = true)
     @Mapping(target = "resumeName", ignore = true)
     @Mapping(target = "user", ignore = true)
     Resume toResumeFromFile(ResumeFileDTO resumeFileDTO);

@@ -1,6 +1,7 @@
 package com.rahul.job_tracker.Resume;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,7 +12,7 @@ import com.rahul.job_tracker.User.User;
 @Service
 public interface ResumeServices {
 
-  User getUser();
+  // User getUser();
 
   public List<ResumeDTO> getAllResume();
 

@@ -7,11 +7,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,9 +18,6 @@ public class ResumeServicesImpl implements ResumeServices {
 
   @Autowired
   private ResumeRepository resumeRepository;
-
-  @Autowired
-  private UserRepository userRepository;
 
   public User getUser() {
     return (User) SecurityContextHolder
@@ -58,8 +52,7 @@ public class ResumeServicesImpl implements ResumeServices {
   }
 
   public int countUserResumes() {
-    User user = getUser();
-    return resumeRepository.countByUser(null);
+    return resumeRepository.countByUser(getUser());
   }
 
   public List<ResumeDTO> retrieveUserResumes() {
