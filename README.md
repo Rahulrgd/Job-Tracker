@@ -1,47 +1,62 @@
-## Project Link:
-+ http://job-tracker-and-manager.s3-website.eu-north-1.amazonaws.com
-+ + It's "http" not "https"
+# Job-Tracker
 
-## How to contribute?
-+ Main branch is locked you can not push directly, only admin can.
-+ You can push in "Master Branch" but you need to pull first or else you won't be able to push.
-+ You can work on a task mentioned in sprint below, it gets updated every week.
+Job-Tracker is a full-stack application designed to streamline job application management. It allows users to store details about their job applications, track progress, and collaborate effectively. The project covers both the backend (Java, Spring Boot, MySQL) and frontend (HTML, CSS, JavaScript, React.js).
 
-## Sprint: (27-4/05/2024)
-+ Api to fetch user's job posts perday for chart presentation.
-   + For daily, monthly
-+ Api for total posts created per day.
-+ Api for top performers - 7 users and their job counts, per day.
-+ Api for average job posts by top 3 performer (For comparing users performance per day in comparision to top 3 user's average job posts.).
+## Features
 
-## Todos:
-+ A search function for easier job posts navigation, having filters for username, category, etc..
-+ A new section for Hints & Tips.
-+ Interaction features such as comments, likes, and dislikes on jobposts and tips.
-  
-## Job-Tracker Web App:
-+ Job-Tracker Web Application allows user's to manage job applications and resumes.
-+ User need needs to add the job applications (manually for now!).
+1. **Application Details:**
+   - Maintain a database of job applications, including company names, positions, and application dates.
+   - Create, update, and delete application records.
 
-## Why do we need to track our job applications?
-+ Tracking and Managing job applications has various advantages while looking for jobs. I can give you some examples, like:
-   + You can monitor yourself, how regular you are applying for jobs.
-   + Tracking yourself, gives you the data and helps you to figureout, what needs to be improved.
-   + You will learn about patterns, that changes are actually helpful while job search.
+2. **Role-Based Access:**
+   - Implemented **Spring Security** for secure authentication and authorization.
+   - Multiple users can create accounts and manage their job application information.
 
-## Why we are creating an app like this?
-+ Applying 3-5 jobs daily, easily piles-up the number of job applications.
-+ It's impossible to track them all within our mind.
-+ I used to use Excel sheet, but always felt Excel is not the best suited for this purpose.
-+ As I needed various other features, that is not present in Excel.
-+ So, I want to create an app that specifically solves this problem.
+3. **Collaboration and Efficiency:**
+   - Collaborate with other users by sharing insights and tips.
+   - Leverage various features to enhance job search efficiency.
 
-## How can this app help us?
-+ You can follow similar people like you.
-+ Which will help you to search jobs more efficiently.
-+ You can search good and relevant job 2-3/day. Searching more than this will definately consume your time more.
-+ But following more people like you, can easily reduce you time and effort.
-+ Which allows you to invest more in your skills, rather than hunting for a job, whole day.
+4. **Daily Tracking and Insights:**
+   - APIs for tracking daily job applications.
+   - Visualize application trends using charts.
 
-+ Hint & Tips section allows you to learn about new way to bypass ATS, or how can you imporve your job hunt process.
-+ Also creates a database of companies for you. Sometimes you are really interested in many company but totally forgets about them after few days.
+5. **Comparison and Motivation:**
+   - Compare your application frequency with the top 3 users.
+   - Stay motivated to maintain a consistent job search routine.
+
+## Getting Started
+
+1. **Prerequisites:**
+   - Java Development Kit (JDK) 17+
+   - Maven 3+
+   - MySQL database (create a schema named `job_tracker`)
+
+2. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/yourusername/job-tracker.git
+   cd job-tracker
+   ```
+
+3. **Database Configuration:**
+   - Update `application.properties` with your MySQL credentials.
+
+4. **Build and Run:**
+   ```bash
+   mvn clean install
+   mvn spring-boot:run
+   ```
+
+5. **Access the Application:**
+   - Open [http://localhost:8080](http://localhost:8080) in your browser.
+
+## Deployment (Previously Hosted on AWS)
+
+The application was previously hosted on AWS using S3 buckets and Elastic Beanstalk. Due to the free tier limitations, the instance has been removed for now.
+
+## Contributing
+
+Contributions are welcome! Feel free to open issues or submit pull requests.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
