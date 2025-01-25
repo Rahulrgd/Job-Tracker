@@ -28,6 +28,8 @@ public interface JobPostServices {
 
   public JobPost retrieveUserJobPostWithId(UUID jobPostId);
 
+  public JobPost retrieveJobPostWithId(UUID jobPostId);
+
   public String updateJobPost(JobPost jobPost);
 
   public String addJobWithJobId(UUID jobPostid);

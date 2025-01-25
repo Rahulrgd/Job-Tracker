@@ -29,6 +29,12 @@ public class JobPostRestController {
     return jobPostServices.allJobPosts(pageNumber);
   }
 
+  // =============================Retrieve Job Post With ID==========================================
+  @GetMapping("/v1/dashboard/job-post-with-id")
+  public JobPost jobPostWithID(@RequestParam UUID jobPostId) {
+    return jobPostServices.retrieveJobPostWithId(jobPostId);
+  }
+
   // =============================Add User's Job Post==========================================
   @PostMapping("/v1/add-job")
   public ResponseEntity<String> addJob(

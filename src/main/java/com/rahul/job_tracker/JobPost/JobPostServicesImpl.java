@@ -397,4 +397,13 @@ public class JobPostServicesImpl implements JobPostServices {
       }
     }
   }
+
+  @Override
+  public JobPost retrieveJobPostWithId(UUID jobPostId) {
+    Optional<JobPost> optionalJobPost = jobPostRepository.findById(jobPostId);
+    JobPost jobPost = optionalJobPost.orElseThrow(() ->
+      new IllegalArgumentException("No job post found with id: " + jobPostId)
+    );
+    return jobPost;
+  }
 }
