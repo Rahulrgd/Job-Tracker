@@ -31,7 +31,7 @@ public class JobPostRestController {
 
   // =============================Retrieve Job Post With ID==========================================
   @GetMapping("/v1/dashboard/job-post-with-id")
-  public JobPost jobPostWithID(@RequestParam UUID jobPostId) {
+  public JobPostDTO jobPostWithID(@RequestParam UUID jobPostId) {
     return jobPostServices.retrieveJobPostWithId(jobPostId);
   }
 
