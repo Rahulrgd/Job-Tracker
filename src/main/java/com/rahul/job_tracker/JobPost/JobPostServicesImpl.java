@@ -131,12 +131,12 @@ public class JobPostServicesImpl implements JobPostServices {
     } else if (page.hasNext()) {
       return jobPosts;
     } else {
-      List<JobPostDTO> newJobPosts = page
-        .getContent()
-        .stream()
-        .map(JobPostMapper.INSTANCE::toDTO)
-        .collect(Collectors.toList());
-      jobPosts.addAll(newJobPosts);
+      // List<JobPostDTO> newJobPosts = page
+      //   .getContent()
+      //   .stream()
+      //   .map(JobPostMapper.INSTANCE::toDTO)
+      //   .collect(Collectors.toList());
+      // jobPosts.addAll(newJobPosts);
       return jobPosts;
     }
   }
